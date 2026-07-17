@@ -33,6 +33,12 @@
 % Ensure navigation symbols don't disappear
 \setbeamercolor{navigation symbols}{fg=offwhite!30!darkcharcoal}
 
+
+\setbeameroption{hide notes} % Only slides
+%\setbeameroption{show only notes} % Only notes
+%\setbeameroption{show notes on second screen=right} % Both
+\setbeamertemplate{note page}{\pagecolor{yellow!5}\insertnote} % \usepackage{palatino}
+
 % define section breaks 
 \AtBeginSection[]{
 	\begin{frame}
