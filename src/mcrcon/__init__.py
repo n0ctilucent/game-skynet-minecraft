@@ -13,6 +13,11 @@ except Exception:
 
 logger = logging.getLogger("hanson")
 
+try:
+    from .mcrcon import MCRcon
+except ImportError:
+    pass
+
 
 class McUtils:
     """Minecraft utilities."""

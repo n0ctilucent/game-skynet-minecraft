@@ -1,6 +1,7 @@
 import asyncio
 import json
-
+import pytest
+from mcrcon import MCRcon
 from src.utils.config_utils import setup_logging
 
 # Configuration - typically loaded from env
@@ -11,6 +12,7 @@ RCON_PASS = "dinosaurExTraVaGanZa1969"
 logger = setup_logging("test_rcon_bridge")
 
 
+@pytest.mark.asyncio
 async def test_rcon_bridge():
     logger.info(f"Connecting to RCON at {RCON_HOST}:{RCON_PORT}...")
     try:

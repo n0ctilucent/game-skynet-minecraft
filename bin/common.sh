@@ -30,6 +30,7 @@ else
   GREEN=""
   YELLOW=""
   CYAN=""
+  LPURP=""
   BOLD=""
   NC=""
 fi

@@ -72,7 +72,7 @@ function run_autoconf() {
 }
 
 function main() {
-  if [ -d "${HOME}/workspace/fonts/figlet" ] && [ "$(which figlet)" ]; then
+  if [ -d "${HOME}/workspace/fonts/figlet" ] && command -v figlet &>/dev/null; then
     echo -e "\n\n" && figlet -f "${HOME}/workspace/fonts/figlet/pagga" ENGREEBLENATOR && echo -e "\n"
   fi
   
@@ -100,7 +100,7 @@ function main() {
   run_aclocal
   run_autoconf
   run_automake
-  ./configure
+  ./configure "$@"
 }
 
 main "$@"
