@@ -15,17 +15,17 @@ class MockConfig:
         "/home/franklin/workspace/gaming/game-skynet-minecraft/input/build_history.json"
     )
     FIELD_BOUNDS = {
-        "min_x": -1600,
-        "max_x": 1600,
-        "min_z": -1600,
-        "max_z": 1600,
-        "y_base": 64,
+        "min_x": -1539,
+        "max_x": -945,
+        "min_z": -913,
+        "max_z": -489,
+        "y_base": 63,
     }
     TEMP_THRESHOLD = 75.0
     AGENT_HOSTS = ["10.10.16.10", "10.10.16.4", "10.10.16.66"]
     SECTORS = {
         "spawn": {"x": [-50, 50], "z": [-50, 50]},
-        "ai_containment": {"x": [-1539, -945], "z": [-1539, -945]},
+        "ai_containment": {"x": [-1539, -945], "z": [-913, -489]},
     }
     RCON_CHECK_INTERVAL = 30
     PLAYER_CHECK_INTERVAL = 10

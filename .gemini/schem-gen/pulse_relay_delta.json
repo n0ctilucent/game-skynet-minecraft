@@ -1,0 +1,152 @@
+{
+    "metadata": {
+        "name": "Emerald Mirror Pulse Relay",
+        "version": "v5-Industrial"
+    },
+    "voxels": [
+        {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "z": 1,
+            "block": "minecraft:purpur_pillar[axis=y]"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "z": 1,
+            "block": "minecraft:purpur_pillar[axis=y]"
+        },
+        {
+            "x": 0,
+            "y": 2,
+            "z": 1,
+            "block": "minecraft:purpur_slab[type=top]"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 1,
+            "block": "minecraft:purpur_slab[type=top]"
+        },
+        {
+            "x": 1,
+            "y": 3,
+            "z": 1,
+            "block": "minecraft:purpur_pillar[axis=y]"
+        },
+        {
+            "x": 1,
+            "y": 4,
+            "z": 1,
+            "block": "minecraft:purpur_pillar[axis=y]"
+        },
+        {
+            "x": 0,
+            "y": 4,
+            "z": 1,
+            "block": "minecraft:purpur_slab[type=top]"
+        },
+        {
+            "x": 2,
+            "y": 4,
+            "z": 1,
+            "block": "minecraft:purpur_slab[type=top]"
+        },
+        {
+            "x": 1,
+            "y": 5,
+            "z": 1,
+            "block": "minecraft:purpur_pillar[axis=y]"
+        },
+        {
+            "x": 1,
+            "y": 6,
+            "z": 1,
+            "block": "minecraft:purpur_pillar[axis=y]"
+        },
+        {
+            "x": 0,
+            "y": 6,
+            "z": 1,
+            "block": "minecraft:purpur_slab[type=top]"
+        },
+        {
+            "x": 2,
+            "y": 6,
+            "z": 1,
+            "block": "minecraft:purpur_slab[type=top]"
+        },
+        {
+            "x": 1,
+            "y": 7,
+            "z": 1,
+            "block": "minecraft:purpur_pillar[axis=y]"
+        },
+        {
+            "x": 1,
+            "y": 8,
+            "z": 1,
+            "block": "minecraft:pearlescent_froglight"
+        },
+        {
+            "x": 1,
+            "y": 9,
+            "z": 1,
+            "block": "minecraft:dark_prismarine_stairs[facing=north,half=top]"
+        }
+    ]
+}

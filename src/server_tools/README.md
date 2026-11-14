@@ -1,49 +1,94 @@
-# Custom Server Tools
+# Server Tools — Minecraft Infrastructure Scripts
 
-```sh
-python -m venv _test
-. _test/bin/activate.fish
-python3 -m pip install -r requirements.txt
+Direct RCON, status monitoring, and GUI tools for managing the Dreamland Minecraft server at `10.10.8.60:25575`.
+
+---
+
+## Files
+
+### `mcrcon.py` — MCRCON Client
+
+Thin wrapper around the mcrcon protocol for Python-based RCON communication. Used by all other tools in this directory and upstream (`rail/skynet_rail_control.py`, `server_tools/main.py`).
+
+```python
+from mcrcon import MCRcon
+with MCRcon("10.10.8.60", os.environ["MC_PASS"]) as mcr:
+    resp = mcr.command("/whitelist add bob")
 ```
 
-- Make a folder on the client
-- put some files in it like forge, mods resource packs, etc.
+### `main.py` — Entry Point / Sample
 
-## mcrcon
+CLI entry point demonstrating RCON usage (adds a player to whitelist). Expects `MC_PASS` environment variable or falls back to config default.
+
+- **Port:** 25575 (RCON)
+- **Auth:** `MC_PASS` env var on chonk
+
+### `status.py` — Java Server Probe
+
+Uses `mcstatus` library to poll the server for online player count and latency. Targets `10.10.8.60:25565`.
+
+```python
+from mcstatus import JavaServer
+server = JavaServer.lookup("10.10.8.60:25565")
+status = server.status()  # players.online, latency (ms)
+```
+
+### `mc_gui.py` — Tkinter Status Dashboard
+
+Matplotlib-backed GUI that graphically displays server status (player count, latency) with periodic refresh via threaded updates. Configurable `SERVER` and `REFRESH` interval (default: 30s).
+
+### `requirements.txt` — Dependencies
+
+Python package requirements for this module (mcstatus, mcrcon, tkinter/matplotlib if running GUI).
+
+---
+
+## Hardware & Topology Reference
+
+| Service | Host | Port |
+|---------|------|------|
+| RCON Bridge | 10.10.8.60 | 25575 |
+| BlueMap API | 10.10.8.60 | 8100 |
+| Stargate MCP | 10.10.16.66 | 8765 |
+| Skynet Core | 10.10.16.10 | 8766 |
+| Edge-T Node | 10.10.16.4 | 8767 |
+
+---
+
+## RCON Command Reference (from MCRCON)
+
+Full command list available via `/help` on the server. Key commands:
+
+| Command | Description |
+|---------|-------------|
+| `/ban /pardon` | Player ban/unban |
+| `/ban-ip /pardon-ip` | IP ban/unban |
+| `/whitelist` | Manage whitelist |
+| `/op /deop` | Operator management |
+| `/gamemode` | Change player gamemode |
+| `/tp` | Teleport players |
+| `/kill` | Kill entity/player |
+| `/kick` | Remove player from server |
+| `/time /weather /difficulty` | Server state changes |
+| `/save-all /save-on /save-off` | World save control |
+| `/plugins` | List loaded plugins |
+| `/timings` | Performance profiling |
+| `/seed` | World seed |
+| `/spawnpoint /setworldspawn` | Spawn management |
+| `/give` | Item distribution |
+| `/tell /say /me` | Chat/messaging |
+
+---
+
+## Setup
 
 ```sh
-Commands list:
-
-/ban: Prevents the specified player from using this server
-/ban-ip: Prevents the specified IP address from using this server
-/banlist: View all players banned from this server
-/defaultgamemode: Set the default gamemode
-/deop: Takes the specified player's operator status
-/difficulty: Sets the game difficulty
-/gamemode: Changes the player to a specific game mode
-/give: Gives the specified player a certain amount of items
-/help: Shows the help menu
-/kick: Removes the specified player from the server
-/kill: Commits suicide, only usable as a player
-/list: Lists all online players
-/me: Performs the specified action in chat
-/op: Gives the specified player operator status
-/pardon: Allows the specified player to use this server
-/pardon-ip: Allows the specified IP address to use this server
-/plugins: Gets a list of plugins running on the server
-/reload: Reloads the server configuration and plugins
-/save-all: Saves the server to disk
-/save-off: Disables server autosaving
-/save-on: Enables server autosaving
-/say: Broadcasts the given message as the sender
-/seed: Shows the world seed
-/setworldspawn: Sets a worlds's spawn point. If no coordinates are specified, the player's coordinates will be used.
-/spawnpoint: Sets a player's spawn point
-/stop: Stops the server, with optional reason
-/tell: Sends a private message to the given player
-/time: Changes the time on each world
-/timings: Records timings to see performance of the server.
-/tp: Teleports the given player (or yourself) to another player or coordinates
-/version: Gets the version of this server including any plugins in use
-/whitelist: Manages the list of players allowed to use this server
+cd /home/franklin/workspace/gaming/game-skynet-minecraft/src/server_tools
+python3 -m venv _test
+. _test/bin/activate.fish  # or bin/activate for bash
+pip install -r requirements.txt
 ```
+
+---
+
+*Created for theDevilsVoice | Last Updated: 2026-11-06*

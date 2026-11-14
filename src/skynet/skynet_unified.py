@@ -49,10 +49,10 @@ class SkynetUnifiedDaemon(SkynetCore):
         sector_name = random.choice(list(Config.SECTORS.keys()))
         bounds = Config.SECTORS[sector_name]
 
-        # Determine schematic dimensions dynamically
-        width = random.randint(10, 20)
-        height = random.randint(15, 35)
-        length = random.randint(10, 20)
+        # Determine schematic dimensions dynamically with sufficient voxel resolution for greebling
+        width = random.randint(18, 32)
+        height = random.randint(20, 36)
+        length = random.randint(22, 36)
 
         tx = random.randint(
             bounds["x"][0], bounds["x"][1] - width
@@ -188,6 +188,12 @@ class SkynetUnifiedDaemon(SkynetCore):
         self, build_name, sector_name, x, y, z, width, height, length
     ):
         """Saves build metadata to a JSON file in the designated metadata directory."""
+        region_map = {
+            "spawn": "spawn_district",
+            "ai_containment": "ai_containment_zone_alpha",
+        }
+        target_region = region_map.get(sector_name, "ai_containment_zone_alpha")
+
         metadata = {
             "build_id": build_name,
             "provenance": {
@@ -206,7 +212,7 @@ class SkynetUnifiedDaemon(SkynetCore):
                 "origin": {"x": x, "y": y, "z": z},
                 "dimensions": {"width": width, "height": height, "length": length},
                 "stability_index": 0.0,  # Placeholder
-                "worldguard_region": "ai_containment_zone_alpha",  # Placeholder
+                "worldguard_region": target_region,
             },
             "performance_impact": {
                 "tps_pre_deployment": 20.0,  # Placeholder

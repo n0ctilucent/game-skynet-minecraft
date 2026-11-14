@@ -192,4 +192,8 @@ def build_house(schem: mcschematic.MCSchematic, prompt: dict):
                     f"{light}[hanging=true]" if "lantern" in light else light,
                 )
 
+    # Apply Exterior Greeble Pass (Piping, HVAC, Fasteners)
+    from .decoration import apply_greeble_pass
+    apply_greeble_pass(schem, w, h, l, theme="industrial_singularity")
+
     return schem

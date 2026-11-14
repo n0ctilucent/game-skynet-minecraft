@@ -1,0 +1,3110 @@
+{
+    "metadata": {
+        "name": "Anti-Entropy Siphon",
+        "version": "v15-Macro-Inverted"
+    },
+    "voxels": [
+        {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:red_nether_bricks"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 7,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 8,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 10,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 11,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 13,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 14,
+            "block": "minecraft:gilded_blackstone"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 1,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 1,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 1,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 1,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 1,
+            "z": 7,
+            "block": "minecraft:shroomlight"
+        },
+        {
+            "x": 7,
+            "y": 1,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 1,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 1,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 1,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 1,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 1,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 1,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 2,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 2,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 2,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 2,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 2,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 2,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 2,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 2,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 2,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 2,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 2,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 2,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 2,
+            "z": 7,
+            "block": "minecraft:shroomlight"
+        },
+        {
+            "x": 7,
+            "y": 2,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 2,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 2,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 2,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 2,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 2,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 2,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 2,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 2,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 2,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 2,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 2,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 3,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 3,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 3,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 3,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 3,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 3,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 3,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 3,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 3,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 3,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 3,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 3,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 3,
+            "z": 7,
+            "block": "minecraft:shroomlight"
+        },
+        {
+            "x": 7,
+            "y": 3,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 3,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 3,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 3,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 3,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 3,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 3,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 3,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 3,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 3,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 3,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 3,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 4,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 4,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 4,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 4,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 4,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 4,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 4,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 4,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 4,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 4,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 4,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 4,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 4,
+            "z": 7,
+            "block": "minecraft:shroomlight"
+        },
+        {
+            "x": 7,
+            "y": 4,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 4,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 4,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 4,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 4,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 4,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 4,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 4,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 4,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 4,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 4,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 4,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 5,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 5,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 5,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 5,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 5,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 5,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 5,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 5,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 5,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 5,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 5,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 5,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 5,
+            "z": 7,
+            "block": "minecraft:shroomlight"
+        },
+        {
+            "x": 7,
+            "y": 5,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 5,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 5,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 5,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 5,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 5,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 5,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 5,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 5,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 5,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 5,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 5,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 6,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 6,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 6,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 6,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 6,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 6,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 6,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 6,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 6,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 6,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 6,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 6,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 6,
+            "z": 7,
+            "block": "minecraft:shroomlight"
+        },
+        {
+            "x": 7,
+            "y": 6,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 6,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 6,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 6,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 6,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 6,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 6,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 6,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 6,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 6,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 6,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 6,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 7,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 7,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 7,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 7,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 7,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 7,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 7,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 7,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 7,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 7,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 7,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 7,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 7,
+            "z": 7,
+            "block": "minecraft:shroomlight"
+        },
+        {
+            "x": 7,
+            "y": 7,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 7,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 7,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 7,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 7,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 7,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 7,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 7,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 7,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 7,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 7,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 7,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 8,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 8,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 8,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 8,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 5,
+            "y": 8,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 8,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 8,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 8,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 8,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 6,
+            "y": 8,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 8,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 8,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 8,
+            "z": 7,
+            "block": "minecraft:shroomlight"
+        },
+        {
+            "x": 7,
+            "y": 8,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 7,
+            "y": 8,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 8,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 8,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 8,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 8,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 8,
+            "y": 8,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 8,
+            "z": 5,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 8,
+            "z": 6,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 8,
+            "z": 7,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 8,
+            "z": 8,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 9,
+            "y": 8,
+            "z": 9,
+            "block": "minecraft:crimson_hyphae"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 3,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:lightning_rod[facing=up]"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 6,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 7,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 8,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 3,
+            "y": 8,
+            "z": 2,
+            "block": "minecraft:lightning_rod[facing=up]"
+        },
+        {
+            "x": 2,
+            "y": 9,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 10,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 11,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 11,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:lightning_rod[facing=up]"
+        },
+        {
+            "x": 12,
+            "y": 5,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 6,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 7,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 8,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 11,
+            "y": 8,
+            "z": 2,
+            "block": "minecraft:lightning_rod[facing=up]"
+        },
+        {
+            "x": 12,
+            "y": 9,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 10,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 11,
+            "z": 2,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 4,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 3,
+            "y": 4,
+            "z": 12,
+            "block": "minecraft:lightning_rod[facing=up]"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 6,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 7,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 8,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 3,
+            "y": 8,
+            "z": 12,
+            "block": "minecraft:lightning_rod[facing=up]"
+        },
+        {
+            "x": 2,
+            "y": 9,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 10,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 2,
+            "y": 11,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 1,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 2,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 3,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 4,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 11,
+            "y": 4,
+            "z": 12,
+            "block": "minecraft:lightning_rod[facing=up]"
+        },
+        {
+            "x": 12,
+            "y": 5,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 6,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 7,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 8,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 11,
+            "y": 8,
+            "z": 12,
+            "block": "minecraft:lightning_rod[facing=up]"
+        },
+        {
+            "x": 12,
+            "y": 9,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 10,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 12,
+            "y": 11,
+            "z": 12,
+            "block": "minecraft:redstone_block"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 7,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 14,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 6,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 13,
+            "y": 1,
+            "z": 12,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 12,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 12,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 4,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 11,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 11,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 3,
+            "y": 1,
+            "z": 12,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 10,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 10,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 9,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 9,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 8,
+            "y": 1,
+            "z": 12,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 8,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 7,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 7,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 14,
+            "y": 1,
+            "z": 6,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 14,
+            "y": 0,
+            "z": 6,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 6,
+            "y": 1,
+            "z": 9,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 6,
+            "y": 0,
+            "z": 9,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        },
+        {
+            "x": 13,
+            "y": 1,
+            "z": 12,
+            "block": "minecraft:warped_trapdoor[half=bottom]"
+        },
+        {
+            "x": 13,
+            "y": 0,
+            "z": 12,
+            "block": "minecraft:polished_blackstone_button[face=floor]"
+        }
+    ]
+}

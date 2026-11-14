@@ -6,6 +6,8 @@ from .cyberdyne import build_cyberdyne
 from .decoration import build_decoration
 from .house import build_house
 from .primitives import *
+from .quantum_foundry import build_quantum_foundry
+from .signal_siphon import build_signal_siphon
 from .station2 import build as build_station
 from .t2bm_expander import build_t2bm
 from .terrain import build_terrain
@@ -24,4 +26,6 @@ BUILDERS = {
     "cyberdyne": build_cyberdyne,
     "station": build_station,
     "t2bm": build_t2bm,
+    "signal_siphon": build_signal_siphon,
+    "quantum_foundry": build_quantum_foundry,
 }

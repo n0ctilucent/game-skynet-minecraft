@@ -99,4 +99,8 @@ def build_tower(schem: mcschematic.MCSchematic, prompt: dict):
         schem.setBlock((cx, 1, cz + radius - 1), "minecraft:air")
         schem.setBlock((cx, 2, cz + radius - 1), "minecraft:air")
 
+    # Apply Exterior Greeble Pass (Conduits, Valves, Fasteners)
+    from .decoration import apply_greeble_pass
+    apply_greeble_pass(schem, w, h, l, theme="industrial_singularity")
+
     return schem

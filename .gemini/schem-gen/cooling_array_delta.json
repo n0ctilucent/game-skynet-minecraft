@@ -1,0 +1,284 @@
+{
+    "metadata": {
+        "name": "Vortex Cooling Array",
+        "version": "v5-Industrial-Vertex"
+    },
+    "voxels": [
+        {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:iron_trapdoor[half=bottom]"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:iron_trapdoor[half=bottom]"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "z": 4,
+            "block": "minecraft:iron_trapdoor[half=bottom]"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:iron_trapdoor[half=bottom]"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 4,
+            "block": "minecraft:iron_trapdoor[half=bottom]"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 4,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:iron_trapdoor[half=bottom]"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 4,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:iron_trapdoor[half=bottom]"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:dark_prismarine"
+        },
+        {
+            "x": 4,
+            "y": 1,
+            "z": 4,
+            "block": "minecraft:iron_trapdoor[half=bottom]"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:purpur_pillar"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:waxed_exposed_copper_stairs[facing=south]"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:purpur_pillar"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:waxed_exposed_copper_stairs[facing=south]"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:purpur_pillar"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 1,
+            "block": "minecraft:waxed_exposed_copper_stairs[facing=south]"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 3,
+            "block": "minecraft:end_rod"
+        },
+        {
+            "x": 2,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:purpur_pillar"
+        },
+        {
+            "x": 3,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:waxed_exposed_copper_stairs[facing=south]"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 2,
+            "block": "minecraft:purpur_pillar"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 3,
+            "block": "minecraft:waxed_exposed_copper_stairs[facing=south]"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 1,
+            "block": "minecraft:end_rod"
+        },
+        {
+            "x": 2,
+            "y": 6,
+            "z": 2,
+            "block": "minecraft:pearlescent_froglight"
+        }
+    ]
+}

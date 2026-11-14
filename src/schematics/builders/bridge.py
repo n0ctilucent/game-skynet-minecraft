@@ -93,5 +93,9 @@ def build_bridge(schem: mcschematic.MCSchematic, prompt: dict):
             schem.setBlock((0, 1, z), fence_mat)
             schem.setBlock((w - 1, 1, z), fence_mat)
 
+    # Apply Exterior Greeble Pass
+    from .decoration import apply_greeble_pass
+    apply_greeble_pass(schem, w, h, l, theme="industrial_singularity")
+
     return schem
 

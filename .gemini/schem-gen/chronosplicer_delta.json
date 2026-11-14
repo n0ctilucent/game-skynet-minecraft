@@ -1,0 +1,688 @@
+{
+    "metadata": {
+        "name": "Chronosplicer Singularity",
+        "version": "v5-Industrial",
+        "source": "Visionary Prose (Emerald Mirror)",
+        "origin_node": "Skynet-Core"
+    },
+    "voxels": [
+        {
+            "x": 1,
+            "y": 1,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 1,
+            "y": 3,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 1,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 1,
+            "y": 3,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:beacon"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 1,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 2,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 2,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 3,
+            "z": 1,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 3,
+            "y": 3,
+            "z": 3,
+            "block": "minecraft:crying_obsidian"
+        },
+        {
+            "x": 5,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": -1,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 0,
+            "z": 3,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "z": 1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 3,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 5,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": -1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 3,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 1,
+            "z": 1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": -1,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "z": 1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 1,
+            "z": 3,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 3,
+            "y": 1,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 0,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 4,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": -1,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 5,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 3,
+            "y": 2,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 2,
+            "z": 1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 2,
+            "z": 3,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 0,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 5,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": -1,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 3,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 3,
+            "z": 3,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 3,
+            "z": 1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 3,
+            "y": 3,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 1,
+            "y": 3,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": 5,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 3,
+            "z": -1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 1,
+            "y": 4,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 3,
+            "y": 4,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 4,
+            "z": 3,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 4,
+            "z": 1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": -1,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 5,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 4,
+            "z": 1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 4,
+            "z": 3,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 1,
+            "y": 4,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 3,
+            "y": 4,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": -1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 5,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 3,
+            "y": 5,
+            "z": 0,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 1,
+            "y": 5,
+            "z": 4,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 5,
+            "z": 1,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 5,
+            "z": 3,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 4,
+            "y": 5,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 0,
+            "y": 5,
+            "z": 2,
+            "block": "minecraft:waxed_copper_block"
+        },
+        {
+            "x": 2,
+            "y": 4,
+            "z": 2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "z": 2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 5,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": -1,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 2,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 2,
+            "y": -1,
+            "z": 2,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 6,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": -2,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 2,
+            "y": 6,
+            "z": 2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 2,
+            "y": -2,
+            "z": 2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 6,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": -2,
+            "block": "minecraft:emerald_block"
+        },
+        {
+            "x": 7,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": -3,
+            "y": 2,
+            "z": 2,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 2,
+            "y": 7,
+            "z": 2,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 2,
+            "y": -3,
+            "z": 2,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": 7,
+            "block": "minecraft:sea_lantern"
+        },
+        {
+            "x": 2,
+            "y": 2,
+            "z": -3,
+            "block": "minecraft:sea_lantern"
+        }
+    ]
+}

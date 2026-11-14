@@ -4,7 +4,7 @@ import sys
 # Official Skynet AI Testing Field Boundaries 
 BOUNDS = {
     "x": (-1539, -945),
-    "z": (-1539, -945),
+    "z": (-913, -489),
     "y_foundation": 63
 }
 

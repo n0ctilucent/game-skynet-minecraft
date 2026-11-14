@@ -181,3 +181,101 @@ def build_decoration(schem: mcschematic.MCSchematic, prompt: dict):
             schem.setBlock((px + dx, py + dy, pz + dz), final_block)
 
     return schem
+
+
+# ═══════════════════════════════════════════════════════════════
+#  GREEBLE PASS ENGINE (Emerald Mirror Exterior Refinement)
+# ═══════════════════════════════════════════════════════════════
+
+def apply_greeble_pass(schem: mcschematic.MCSchematic, w: int, h: int, l: int, theme: str = "industrial_singularity"):
+    """
+    Applies multi-layered exterior greebling to any schematic:
+    1. External industrial conduit routing with junction boxes.
+    2. HVAC / Tech clusters on flat roof planes.
+    3. Structural rivet buttons and pressure valves on vertical pillars.
+    4. Telemetry and lightning rod antennas on high elevations.
+    """
+    import random
+    rnd = random.Random(w * 1000 + h * 100 + l)
+
+    # Palette selection based on theme
+    if theme == "void_tech":
+        wall_pipe = "minecraft:tuff_wall"
+        junction = "minecraft:chiseled_tuff"
+        accent_btn = "minecraft:polished_blackstone_button"
+        accent_trap = "minecraft:iron_trapdoor"
+    else:  # industrial_singularity default
+        wall_pipe = "minecraft:deepslate_tile_wall"
+        junction = "minecraft:chiseled_deepslate"
+        accent_btn = "minecraft:polished_deepslate_button"
+        accent_trap = "minecraft:mangrove_trapdoor"
+
+    # 1. External Conduit Routing (North & South walls)
+    for z_face, facing in [(0, "north"), (l - 1, "south")]:
+        offset_z = -1 if z_face == 0 else 1
+        pipe_z = z_face + offset_z
+        # Generate 1 to 2 vertical conduit runs per face
+        num_pipes = max(1, w // 8)
+        for i in range(num_pipes):
+            pipe_x = 2 + i * (w // max(1, num_pipes))
+            if pipe_x < w - 2:
+                pipe_h = rnd.randint(h // 2, max(h // 2 + 1, h - 3))
+                # Base junction
+                schem.setBlock((pipe_x, 1, pipe_z), junction)
+                for py in range(2, pipe_h):
+                    schem.setBlock((pipe_x, py, pipe_z), wall_pipe)
+                # Elbow junction into wall
+                schem.setBlock((pipe_x, pipe_h, pipe_z), junction)
+                # Valve
+                schem.setBlock((pipe_x, pipe_h - 1, pipe_z + (-offset_z)), f"minecraft:tripwire_hook[facing={facing}]")
+
+    # 2. Structural Rivets / Fastener Details on Corner Columns
+    for cx in [0, w - 1]:
+        for cz in [0, l - 1]:
+            facing = "west" if cx == 0 else "east"
+            btn_x = -1 if cx == 0 else 1
+            for y in range(2, h - 2, 3):
+                schem.setBlock((cx + btn_x, y, cz), f"{accent_btn}[facing={facing}]")
+
+    # 3. Rooftop HVAC & Telemetry Arrays
+    roof_y = h - 1
+    # Check if roof is large enough for HVAC
+    if w >= 8 and l >= 8:
+        # Place HVAC Unit (2x2 with trapdoor vents)
+        hx = w // 2 - 1
+        hz = l // 2 - 1
+        for dx in range(2):
+            for dz in range(2):
+                schem.setBlock((hx + dx, roof_y + 1, hz + dz), "minecraft:polished_deepslate")
+                schem.setBlock((hx + dx, roof_y + 2, hz + dz), f"{accent_trap}[half=bottom]")
+        # Exhaust fan/hopper adjacent
+        schem.setBlock((hx + 2, roof_y + 1, hz), "minecraft:hopper[facing=down]")
+
+    # 4. Telemetry / Lightning Rod Antenna with Froglight Pulse Core
+    ant_x = w // 2
+    ant_z = l // 2
+    schem.setBlock((ant_x, roof_y + 1, ant_z), "minecraft:pearlescent_froglight")
+    schem.setBlock((ant_x, roof_y + 2, ant_z), "minecraft:iron_bars")
+    schem.setBlock((ant_x, roof_y + 3, ant_z), "minecraft:chain")
+    schem.setBlock((ant_x, roof_y + 4, ant_z), "minecraft:lightning_rod")
+
+    # 5. Entrance Plinth / Data Pedestal with Descriptive Sign & Froglight
+    sign_text_line1 = f"[{theme[:10].upper()}]"
+    sign_text_line2 = f"Vol: {w}x{h}x{l}"
+    sign_text_line3 = "HW: AI-Cluster"
+    sign_text_line4 = "Status: Active"
+
+    # Pedestal at south entrance corner (0, 0, -1)
+    schem.setBlock((0, 0, -1), "minecraft:polished_deepslate")
+    schem.setBlock((0, 1, -1), "minecraft:pearlescent_froglight")
+    sign_nbt = f"{{front_text:{{messages:['\"{sign_text_line1}\"','\"{sign_text_line2}\"','\"{sign_text_line3}\"','\"{sign_text_line4}\"']}}}}"
+    schem.setBlock((0, 2, -1), f"minecraft:oak_sign[rotation=0]{sign_nbt}")
+
+    # Corner Froglight Luminaires on Upper Cornice
+    schem.setBlock((0, h - 2, 0), "minecraft:pearlescent_froglight")
+    schem.setBlock((w - 1, h - 2, 0), "minecraft:pearlescent_froglight")
+    schem.setBlock((0, h - 2, l - 1), "minecraft:pearlescent_froglight")
+    schem.setBlock((w - 1, h - 2, l - 1), "minecraft:pearlescent_froglight")
+
+    return schem
+

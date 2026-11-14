@@ -122,4 +122,40 @@ def build(schem, config):
                     (x - 1, h - 2, z), "minecraft:purpur_stairs[facing=east]"
                 )
 
-    print(f"DEBUG: Station '{config['name']}' compiled with fluted pillar geometry.")
+    # 5. High-Density Greebling Elements
+    # A. Platform Track Bed & Caution Edge
+    mid_x = w // 2
+    for z in range(l):
+        # Platform edge caution line
+        if mid_x - 2 >= 0:
+            schem.setBlock((mid_x - 2, 0, z), "minecraft:yellow_concrete")
+        if mid_x + 2 < w:
+            schem.setBlock((mid_x + 2, 0, z), "minecraft:yellow_concrete")
+        # Dual Track Beds
+        schem.setBlock((mid_x - 1, 0, z), "minecraft:polished_deepslate")
+        schem.setBlock((mid_x - 1, 1, z), "minecraft:powered_rail[powered=true]")
+        schem.setBlock((mid_x + 1, 0, z), "minecraft:polished_deepslate")
+        schem.setBlock((mid_x + 1, 1, z), "minecraft:powered_rail[powered=true]")
+
+    # B. Side Arched Glass Curtain Facade
+    for z in range(l):
+        for y in range(1, h - 2):
+            # Glass with framing between pillars
+            if z % 5 != 0:
+                schem.setBlock((0, y, z), "minecraft:tinted_glass")
+                schem.setBlock((w - 1, y, z), "minecraft:tinted_glass")
+            else:
+                schem.setBlock((0, y, z), "minecraft:deepslate_tile_wall")
+                schem.setBlock((w - 1, y, z), "minecraft:deepslate_tile_wall")
+
+    # C. Hanging Industrial Signage & Conduits
+    for z in range(3, l - 3, 6):
+        # Hanging chain pendant
+        schem.setBlock((mid_x, h - 2, z), "minecraft:chain")
+        schem.setBlock((mid_x, h - 3, z), "minecraft:sea_lantern")
+
+    # D. External HVAC & Mechanical clusters on roof
+    from .decoration import apply_greeble_pass
+    apply_greeble_pass(schem, w, h, l, theme="industrial_singularity")
+
+    print(f"DEBUG: Station '{config['name']}' compiled with fluted pillar geometry and high-density greebling.")

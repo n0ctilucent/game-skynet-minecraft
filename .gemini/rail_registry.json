@@ -1,0 +1,29 @@
+{
+    "switches": {
+        "washington_terminus_main": {
+            "name": "Washington Terminus - Main Switch",
+            "coords": {"x": -1212, "y": 76, "z": -670},
+            "state": false
+        },
+        "deep_rail_vertical_1": {
+            "name": "Deep Rail Vertical Transition A",
+            "coords": {"x": -1283, "y": 77, "z": -658},
+            "state": false
+        },
+        "chonk_01_sensor": {
+            "name": "Sensor Node CHONK-01",
+            "coords": {"x": 1585, "y": 59, "z": 670},
+            "state": false
+        },
+        "chonk_02_sensor": {
+            "name": "Sensor Node CHONK-02",
+            "coords": {"x": 1583, "y": 59, "z": 670},
+            "state": false
+        },
+        "chonk_03_sensor": {
+            "name": "Sensor Node CHONK-03",
+            "coords": {"x": 1581, "y": 59, "z": 671},
+            "state": false
+        }
+    }
+}

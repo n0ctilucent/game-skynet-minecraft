@@ -155,4 +155,8 @@ def build_castle(schem: mcschematic.MCSchematic, prompt: dict):
                 elif random.random() < 0.10:
                     schem.setBlock((x, y, z), tertiary)
 
+    # Apply Exterior Greeble Pass
+    from .decoration import apply_greeble_pass
+    apply_greeble_pass(schem, w, wall_h + 4, l, theme="industrial_singularity")
+
     return schem
