@@ -50,6 +50,17 @@ Uses `MCRcon` to connect to the Stargate node and send block state commands.
 
 Listens for rail cart trigger events (`CART_PASS`, sensor triggers, etc.) from detector rails across the network. Processes them through LLM orchestration to determine switch actions and priority routing. Logs to `logs/rail_traffic.log`.
 
+### `containment_rail_builder.py` — Containment Rail & Corner Generator
+
+Procedural 90° corner synthesis engine for `ai_containment_zone_alpha`:
+- Enforces standard unpowered `minecraft:rail[shape=...]` on inert `minecraft:polished_deepslate` roadbed at $Y=63$.
+- Computes canonical curved shapes (`south_east`, `south_west`, `north_west`, `north_east`).
+- Emits Sponge `.schem` files for all four perimeter corners and the AI Lab Gateway interface spur.
+
+### `deploy_containment_rail_corners.sh` — RCON Corner Deployment Script
+
+Batch RCON script applying the four orbital loop corners and building spurs directly to PaperMC.
+
 ### `containment_transit_loop.py` — Containment Orbital Rail Generator & Deployer
 
 Autonomous transit loop pathfinder and viaduct builder for `ai_containment_zone_alpha`:
