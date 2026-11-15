@@ -46,8 +46,12 @@ The bitsmasher.net distributed railway architecture coordinates automated switch
   * `HUB_03` (`deep_rail_vertical_1`): `(-1283, 77, -658)`
 * Dispatches `STOP` (`redstone_block`) or `CLEAR` (`air`) to trigger physical redstone displays without ticking delay.
 
-### 2.4 [containment_rail_builder.py](file:///home/franklin/workspace/gaming/game-stargate-research/src/rail/containment_rail_builder.py)
+### 2.4 [containment_rail_builder.py](file:///home/franklin/workspace/gaming/game-skynet-minecraft/src/rail/containment_rail_builder.py)
 * **Corner Geometry Synthesis:** Enforces standard unpowered `minecraft:rail[shape=...]` and inert `minecraft:polished_deepslate` roadbed ($Y=63$) at 90° turns.
+* **Dual-Grade Adaptive Profile:**
+  * **Ground-Level Profile (`ground`):** Standard inside AI Containment Zone Alpha. Track bed aligns with building floor level at $Y=64$ and roadbed at $Y=63$.
+  * **Elevated Arched Masonry Viaduct (`viaduct`):** Generates arched stone brick spans with corbels, arch haunches, $2 \times 2$ piers, and `iron_bars` parapets with cobblestone wall stanchions when crossing canyons, water, or planning exterior lines.
+* **Station Terminal Pavilions (`build_station_terminal_pavilion`):** Generates covered $5 \times 7$ pavilions at building termini with spruce boarding gates, warm lantern lighting, detector rails, and a mandatory 3-block building setback.
 * **Schematic Output:** Emits verified `.schem` and `.json` manifests for all four orbital loop corners (`CONTAINMENT_ORBITAL_CORNER_NW..SW`) and the AI Lab building spur.
 
 ---

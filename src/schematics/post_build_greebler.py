@@ -21,10 +21,16 @@ CONTAINMENT_BUILDER = "/home/minecraft/src/containment_rail_builder.py"
 
 # Ensure builders path is available for urban_greebler
 BUILDERS_DIR = "/home/franklin/workspace/gaming/game-skynet-minecraft/src/schematics/builders"
-if BUILDERS_DIR not in sys.path:
-    sys.path.insert(0, BUILDERS_DIR)
+RAIL_DIR = "/home/franklin/workspace/gaming/game-skynet-minecraft/src/rail"
+for p in (BUILDERS_DIR, RAIL_DIR):
+    if p not in sys.path:
+        sys.path.insert(0, p)
 
 import urban_greebler
+from containment_rail_builder import (
+    build_arched_viaduct_span,
+    build_station_terminal_pavilion
+)
 
 # Ground-truth AI Containment Zone Alpha bounds
 CONTAINMENT_BOUNDS = {
@@ -154,15 +160,21 @@ def generate_villager_summon(x: int, y: int, z: int, workstation: str = None, pr
     return f"summon minecraft:villager {x} {y} {z} {nbt}"
 
 
-def generate_rail_corridor_commands(x1: int, z1: int, x2: int, z2: int, y_rail: int = 64) -> list[str]:
+def generate_rail_corridor_commands(
+    x1: int, z1: int, x2: int, z2: int,
+    y_rail: int = 64, profile: str = "ground"
+) -> list[str]:
     """
-    Generate single-track tunnel/bridge commands between two points conforming
-    to build-containment-railway (Loop 1 rules):
-    - Roadbed at Y-1 (Y=63)
-    - Track at Y (Y=64)
-    - Redstone block at Y-1 under powered rails (every 32 blocks)
-    - 3x3 clearance envelope
+    Generate rail corridor commands between two points.
+    - profile='ground' (Standard for AI Containment Area): Builds level with
+      ground/building entries at Y=64 (roadbed at Y=63).
+    - profile='viaduct' (For Canyons/Water and Exterior Expansion): Builds the
+      elevated stone brick arched viaduct with corbels, arch haunches,
+      2x2 piers, and iron_bars parapet.
     """
+    if profile == "viaduct":
+        return build_arched_viaduct_span(x1, z1, x2, z2, y_deck=y_rail)
+
     commands = []
     y_bed = y_rail - 1
 
@@ -302,6 +314,14 @@ def compile_urban_greebles(manifest: dict) -> list[str]:
             sf["x"], sf.get("y", 63), sf["z"]
         ))
 
+    # Terminal station pavilions
+    for st in manifest.get("stations", []):
+        cmds.extend(build_station_terminal_pavilion(
+            st["x"], st.get("y", 64), st["z"],
+            facing=st.get("facing", "east"),
+            station_name=st.get("name", "Terminal Pavilion")
+        ))
+
     return cmds
 
 
@@ -374,7 +394,8 @@ def execute_pipeline(manifest_path: Path, dry_run: bool = False, skip_tps: bool 
                 rail_cmds = generate_rail_corridor_commands(
                     stub["x"], stub["z"],
                     dest["x"], dest["z"],
-                    y_rail=stub.get("y", 64)
+                    y_rail=stub.get("y", 64),
+                    profile=stub.get("profile", "ground")
                 )
                 for rcmd in rail_cmds:
                     rcon_execute(rcmd)

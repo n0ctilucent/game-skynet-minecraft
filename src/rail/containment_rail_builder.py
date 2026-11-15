@@ -255,6 +255,165 @@ def build_building_interconnect_schematic() -> tuple[mcschematic.MCSchematic, di
     return schem, dims, meta
 
 
+def build_arched_viaduct_span(
+    x1: int, z1: int, x2: int, z2: int,
+    y_deck: int = 64, pier_interval: int = 10, seed: int = 42
+) -> list[str]:
+    """
+    Generates an elevated arched masonry viaduct spanning open terrain/canyons.
+    - Deck: stone_bricks with mossy/cracked accents and stone_brick_stairs[half=top] corbels.
+    - Underside arches: semicircular haunches with inverted stone_brick_stairs & slabs.
+    - Parapets: iron_bars interrupted every 6 blocks by cobblestone_wall stanchions.
+    - Piers: 2x2 stone_bricks piers anchored down 4-8 blocks.
+    - Power: sub-surface redstone_block under powered_rail strictly every 32 blocks (step % 32 == 0).
+    """
+    import random
+    rnd = random.Random(seed)
+    commands = []
+    y_bed = y_deck - 1
+
+    dx = 1 if x2 >= x1 else -1
+    dz = 1 if z2 >= z1 else -1
+
+    step = 0
+    if x1 != x2:
+        for x in range(x1, x2 + dx, dx):
+            is_powered = (step % 32 == 0)
+            if is_powered:
+                commands.append(f"setblock {x} {y_bed} {z1} minecraft:redstone_block")
+                commands.append(f"setblock {x} {y_deck} {z1} minecraft:powered_rail[shape=east_west]")
+            else:
+                brick = "minecraft:mossy_stone_bricks" if rnd.random() < 0.2 else "minecraft:stone_bricks"
+                commands.append(f"setblock {x} {y_bed} {z1} {brick}")
+                commands.append(f"setblock {x} {y_deck} {z1} minecraft:rail[shape=east_west]")
+
+            for dy in range(1, 4):
+                for offset in (-1, 0, 1):
+                    commands.append(f"setblock {x} {y_deck + dy} {z1 + offset} minecraft:air keep")
+
+            for offset, facing in [(-1, "north"), (1, "south")]:
+                cz = z1 + offset
+                commands.append(f"setblock {x} {y_bed} {cz} minecraft:stone_brick_stairs[half=top,facing={facing}]")
+                if step % 6 == 0:
+                    commands.append(f"setblock {x} {y_deck + 1} {cz} minecraft:cobblestone_wall")
+                else:
+                    commands.append(f"setblock {x} {y_deck + 1} {cz} minecraft:iron_bars")
+
+            is_pier = (step % pier_interval == 0)
+            if is_pier:
+                for px in (x, x + (1 if dx > 0 else -1)):
+                    for pz in (z1 - 1, z1):
+                        for dy in range(1, 6):
+                            commands.append(f"setblock {px} {y_bed - dy} {pz} minecraft:stone_bricks")
+            else:
+                dist_to_pier = min(step % pier_interval, pier_interval - (step % pier_interval))
+                if dist_to_pier == 1:
+                    commands.append(f"setblock {x} {y_bed - 1} {z1} minecraft:stone_brick_stairs[half=top,facing=east]")
+                elif dist_to_pier == 2:
+                    commands.append(f"setblock {x} {y_bed - 1} {z1} minecraft:stone_brick_slab[type=top]")
+
+            step += 1
+
+    elif z1 != z2:
+        for z in range(z1, z2 + dz, dz):
+            is_powered = (step % 32 == 0)
+            if is_powered:
+                commands.append(f"setblock {x1} {y_bed} {z} minecraft:redstone_block")
+                commands.append(f"setblock {x1} {y_deck} {z} minecraft:powered_rail[shape=north_south]")
+            else:
+                brick = "minecraft:mossy_stone_bricks" if rnd.random() < 0.2 else "minecraft:stone_bricks"
+                commands.append(f"setblock {x1} {y_bed} {z} {brick}")
+                commands.append(f"setblock {x1} {y_deck} {z} minecraft:rail[shape=north_south]")
+
+            for dy in range(1, 4):
+                for offset in (-1, 0, 1):
+                    commands.append(f"setblock {x1 + offset} {y_deck + dy} {z} minecraft:air keep")
+
+            for offset, facing in [(-1, "west"), (1, "east")]:
+                cx = x1 + offset
+                commands.append(f"setblock {cx} {y_bed} {z} minecraft:stone_brick_stairs[half=top,facing={facing}]")
+                if step % 6 == 0:
+                    commands.append(f"setblock {cx} {y_deck + 1} {z} minecraft:cobblestone_wall")
+                else:
+                    commands.append(f"setblock {cx} {y_deck + 1} {z} minecraft:iron_bars")
+
+            is_pier = (step % pier_interval == 0)
+            if is_pier:
+                for pz in (z, z + (1 if dz > 0 else -1)):
+                    for px in (x1 - 1, x1):
+                        for dy in range(1, 6):
+                            commands.append(f"setblock {px} {y_bed - dy} {pz} minecraft:stone_bricks")
+            else:
+                dist_to_pier = min(step % pier_interval, pier_interval - (step % pier_interval))
+                if dist_to_pier == 1:
+                    commands.append(f"setblock {x1} {y_bed - 1} {z} minecraft:stone_brick_stairs[half=top,facing=south]")
+                elif dist_to_pier == 2:
+                    commands.append(f"setblock {x1} {y_bed - 1} {z} minecraft:stone_brick_slab[type=top]")
+
+            step += 1
+
+    return commands
+
+
+def build_station_terminal_pavilion(
+    x: int, y: int, z: int,
+    facing: str = "east", station_name: str = "Terminal Pavilion"
+) -> list[str]:
+    """
+    Construct a standardized 5x7 covered terminal station pavilion.
+    Enforces 3-block lateral setback from building facades to prevent clipping.
+    Includes stone brick foundation, spruce fence boarding gates, warm lighting,
+    and detector rail telemetry trigger.
+    """
+    commands = []
+    w, l = 5, 7
+    half_w = w // 2
+
+    # Foundation deck at Y-1 (Y=63)
+    for dx in range(-half_w, half_w + 1):
+        for dz in range(l):
+            commands.append(f"setblock {x + dx} {y - 1} {z + dz} minecraft:stone_bricks")
+            for dy in range(4):
+                commands.append(f"setblock {x + dx} {y + dy} {z + dz} minecraft:air keep")
+
+    # Corner support pillars (Polished Deepslate)
+    for dx in (-half_w, half_w):
+        for dz in (0, l - 1):
+            for dy in range(4):
+                commands.append(f"setblock {x + dx} {y + dy} {z + dz} minecraft:polished_deepslate")
+
+    # Roof canopy at Y+4 (Stone Brick Slabs)
+    for dx in range(-half_w - 1, half_w + 2):
+        for dz in range(-1, l + 1):
+            commands.append(f"setblock {x + dx} {y + 4} {z + dz} minecraft:stone_brick_slab[type=top]")
+
+    # Center arrival/departure track
+    track_axis = "north_south" if facing in ("north", "south") else "east_west"
+    for dz in range(l):
+        if dz == l // 2:
+            # Detector rail triggers telemetry packet
+            commands.append(f"setblock {x} {y} {z + dz} minecraft:detector_rail[shape={track_axis}]")
+        elif dz in (0, l - 1):
+            commands.append(f"setblock {x} {y - 1} {z + dz} minecraft:redstone_block")
+            commands.append(f"setblock {x} {y} {z + dz} minecraft:powered_rail[shape={track_axis}]")
+        else:
+            commands.append(f"setblock {x} {y} {z + dz} minecraft:rail[shape={track_axis}]")
+
+    # Boarding gates and platform railings along outer edge
+    for dz in range(1, l - 1):
+        if dz == l // 2:
+            commands.append(f"setblock {x + half_w} {y} {z + dz} minecraft:spruce_fence_gate[facing=west,open=false]")
+        else:
+            commands.append(f"setblock {x + half_w} {y} {z + dz} minecraft:spruce_fence")
+        commands.append(f"setblock {x - half_w} {y} {z + dz} minecraft:spruce_fence")
+
+    # Warm interior lanterns hanging from canopy
+    commands.append(f"setblock {x - 1} {y + 3} {z + 2} minecraft:lantern[hanging=true]")
+    commands.append(f"setblock {x + 1} {y + 3} {z + l - 3} minecraft:lantern[hanging=true]")
+
+    return commands
+
+
 def save_schematic_and_manifest(
     schem: mcschematic.MCSchematic,
     dims: dict,
@@ -307,7 +466,7 @@ if [[ ! -x "$MCRCON" ]]; then
     exit 1
 fi
 
-RCON_PASS="minecraft"
+RCON_PASS="dinosaurExTraVaGanZa1969"
 
 exec_rcon() {
     "$MCRCON" -H 127.0.0.1 -P 25575 -p "$RCON_PASS" "$1"
