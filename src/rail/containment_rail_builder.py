@@ -458,7 +458,7 @@ def generate_rcon_deploy_script() -> Path:
     script_content = """#!/usr/bin/env bash
 # deploy_containment_rail_corners.sh
 # Deploys verified 90-degree rail corners and connects AI Containment buildings.
-# Enforces standard unpowered rail at corners and non-redstone roadbed.
+# Enforces standard unpowered rail at corners, non-redstone roadbed, and chunk forceloading.
 
 MCRCON="/home/minecraft/bin/mcrcon"
 if [[ ! -x "$MCRCON" ]]; then
@@ -476,47 +476,62 @@ echo "[*] Deploying AI Containment Rail Corners..."
 
 # 1. Northwest Corner (-1539, 64, -913): South to East
 echo "[-] Placing NW Corner at -1539 64 -913 (shape=south_east)..."
+exec_rcon "forceload add -1539 -913"
+exec_rcon "fill -1540 65 -914 -1538 67 -912 minecraft:air keep"
 exec_rcon "setblock -1539 63 -913 minecraft:polished_deepslate"
 exec_rcon "setblock -1539 64 -913 minecraft:rail[shape=south_east]"
 exec_rcon "setblock -1538 64 -913 minecraft:powered_rail[shape=east_west]"
 exec_rcon "setblock -1538 63 -913 minecraft:redstone_block"
 exec_rcon "setblock -1539 64 -912 minecraft:powered_rail[shape=north_south]"
 exec_rcon "setblock -1539 63 -912 minecraft:redstone_block"
+exec_rcon "forceload remove -1539 -913"
 
 # 2. Northeast Corner (-945, 64, -913): West to South
 echo "[-] Placing NE Corner at -945 64 -913 (shape=south_west)..."
+exec_rcon "forceload add -945 -913"
+exec_rcon "fill -946 65 -914 -944 67 -912 minecraft:air keep"
 exec_rcon "setblock -945 63 -913 minecraft:polished_deepslate"
 exec_rcon "setblock -945 64 -913 minecraft:rail[shape=south_west]"
 exec_rcon "setblock -946 64 -913 minecraft:powered_rail[shape=east_west]"
 exec_rcon "setblock -946 63 -913 minecraft:redstone_block"
 exec_rcon "setblock -945 64 -912 minecraft:powered_rail[shape=north_south]"
 exec_rcon "setblock -945 63 -912 minecraft:redstone_block"
+exec_rcon "forceload remove -945 -913"
 
 # 3. Southeast Corner (-945, 64, -489): North to West
 echo "[-] Placing SE Corner at -945 64 -489 (shape=north_west)..."
+exec_rcon "forceload add -945 -489"
+exec_rcon "fill -946 65 -490 -944 67 -488 minecraft:air keep"
 exec_rcon "setblock -945 63 -489 minecraft:polished_deepslate"
 exec_rcon "setblock -945 64 -489 minecraft:rail[shape=north_west]"
 exec_rcon "setblock -946 64 -489 minecraft:powered_rail[shape=east_west]"
 exec_rcon "setblock -946 63 -489 minecraft:redstone_block"
 exec_rcon "setblock -945 64 -490 minecraft:powered_rail[shape=north_south]"
 exec_rcon "setblock -945 63 -490 minecraft:redstone_block"
+exec_rcon "forceload remove -945 -489"
 
 # 4. Southwest Corner (-1539, 64, -489): East to North
 echo "[-] Placing SW Corner at -1539 64 -489 (shape=north_east)..."
+exec_rcon "forceload add -1539 -489"
+exec_rcon "fill -1540 65 -490 -1538 67 -488 minecraft:air keep"
 exec_rcon "setblock -1539 63 -489 minecraft:polished_deepslate"
 exec_rcon "setblock -1539 64 -489 minecraft:rail[shape=north_east]"
 exec_rcon "setblock -1538 64 -489 minecraft:powered_rail[shape=east_west]"
 exec_rcon "setblock -1538 63 -489 minecraft:redstone_block"
 exec_rcon "setblock -1539 64 -490 minecraft:powered_rail[shape=north_south]"
 exec_rcon "setblock -1539 63 -490 minecraft:redstone_block"
+exec_rcon "forceload remove -1539 -489"
 
 # 5. AI Lab Gateway Spur Junction (-1539, 64, -608)
 echo "[-] Placing AI Lab Connector at -1539 64 -608..."
+exec_rcon "forceload add -1545 -608 -1539 -608"
+exec_rcon "fill -1546 65 -609 -1538 67 -607 minecraft:air keep"
 exec_rcon "setblock -1539 63 -608 minecraft:polished_deepslate"
 exec_rcon "setblock -1539 64 -608 minecraft:rail[shape=north_west]"
 exec_rcon "setblock -1540 64 -608 minecraft:powered_rail[shape=east_west]"
 exec_rcon "setblock -1540 63 -608 minecraft:redstone_block"
 exec_rcon "setblock -1545 64 -608 minecraft:detector_rail[shape=east_west]"
+exec_rcon "forceload remove -1545 -608 -1539 -608"
 
 echo "[+] Rail corners and building connectors deployed successfully."
 """
@@ -528,15 +543,133 @@ echo "[+] Rail corners and building connectors deployed successfully."
     return script_path
 
 
+def deploy_containment_perimeter_railway(
+    rcon_host: str = "127.0.0.1",
+    rcon_port: int = 25575,
+    rcon_pass: str = "dinosaurExTraVaGanZa1969",
+    segment_size: int = 64
+):
+    """
+    Deploys and connects the complete 2,036-block perimeter railway in AI Containment Zone Alpha:
+    - North Arm: (-1538, 64, -913) to (-946, 64, -913)
+    - East Arm:  (-945, 64, -912) to (-945, 64, -490)
+    - South Arm: (-946, 64, -489) down to (-1538, 64, -489)
+    - West Arm:  (-1539, 64, -490) up to (-1539, 64, -912)
+    - 4 Verified Corners with inert polished deepslate roadbeds
+    - AI Lab Gateway Spur and Station Pavilion
+    All operations use chunk forceloading to prevent 'position not loaded' errors.
+    """
+    from mcrcon import MCRcon
+
+    print(f"[*] Connecting to Minecraft RCON on {rcon_host}:{rcon_port} for full perimeter deployment...")
+    with MCRcon(rcon_host, rcon_pass, port=rcon_port, timeout=10) as mcr:
+        # 1. Deploy Corners First
+        print("[-] Deploying 4 Verified Perimeter Corners...")
+        corners = [
+            ("NW", -1539, -913, "south_east", (-1538, -913, "east_west"), (-1539, -912, "north_south")),
+            ("NE", -945, -913, "south_west", (-946, -913, "east_west"), (-945, -912, "north_south")),
+            ("SE", -945, -489, "north_west", (-946, -489, "east_west"), (-945, -490, "north_south")),
+            ("SW", -1539, -489, "north_east", (-1538, -489, "east_west"), (-1539, -490, "north_south")),
+        ]
+        for name, cx, cz, shape, pow_arm1, pow_arm2 in corners:
+            mcr.command(f"forceload add {cx} {cz}")
+            mcr.command(f"fill {cx-1} 65 {cz-1} {cx+1} 67 {cz+1} minecraft:air")
+            mcr.command(f"setblock {cx} 63 {cz} minecraft:polished_deepslate")
+            mcr.command(f"setblock {cx} 64 {cz} minecraft:rail[shape={shape}]")
+            # Powered departure arms
+            mcr.command(f"setblock {pow_arm1[0]} 63 {pow_arm1[1]} minecraft:redstone_block")
+            mcr.command(f"setblock {pow_arm1[0]} 64 {pow_arm1[1]} minecraft:powered_rail[shape={pow_arm1[2]}]")
+            mcr.command(f"setblock {pow_arm2[0]} 63 {pow_arm2[1]} minecraft:redstone_block")
+            mcr.command(f"setblock {pow_arm2[0]} 64 {pow_arm2[1]} minecraft:powered_rail[shape={pow_arm2[2]}]")
+            mcr.command(f"forceload remove {cx} {cz}")
+
+        # 2. Deploy AI Lab Gateway Spur & Station Pavilion
+        print("[-] Deploying AI Lab Gateway Spur and Covered Station Pavilion at (-1545, 64, -608)...")
+        mcr.command("forceload add -1546 -610 -1538 -606")
+        mcr.command("fill -1546 65 -609 -1538 67 -607 minecraft:air keep")
+        mcr.command("setblock -1539 63 -608 minecraft:polished_deepslate")
+        mcr.command("setblock -1539 64 -608 minecraft:rail[shape=north_west]")
+        mcr.command("fill -1544 63 -608 -1540 63 -608 minecraft:polished_deepslate")
+        mcr.command("fill -1544 64 -608 -1540 64 -608 minecraft:rail[shape=east_west]")
+        mcr.command("setblock -1540 63 -608 minecraft:redstone_block")
+        mcr.command("setblock -1540 64 -608 minecraft:powered_rail[shape=east_west]")
+        mcr.command("setblock -1545 64 -608 minecraft:detector_rail[shape=east_west]")
+        # Station Pavilion at AI Lab Entrance
+        station_cmds = build_station_terminal_pavilion(-1545, 64, -608, facing="east", station_name="AI Lab Gateway")
+        for scmd in station_cmds:
+            mcr.command(scmd)
+        mcr.command("forceload remove -1546 -610 -1538 -606")
+
+        # 3. Deploy 4 Connecting Perimeter Arms in 64-block segments
+        arms = [
+            ("North Arm", -1537, -947, -913, "X", "east_west"),
+            ("East Arm", -911, -491, -945, "Z", "north_south"),
+            ("South Arm", -947, -1537, -489, "X", "east_west"),
+            ("West Arm", -491, -911, -1539, "Z", "north_south")
+        ]
+
+        for arm_name, start, end, fixed, axis, track_shape in arms:
+            print(f"[-] Laying {arm_name} (range {start} to {end})...")
+            step_dir = 1 if end >= start else -1
+            curr = start
+
+            while (curr <= end if step_dir > 0 else curr >= end):
+                next_val = curr + (segment_size - 1) * step_dir
+                if step_dir > 0 and next_val > end:
+                    next_val = end
+                elif step_dir < 0 and next_val < end:
+                    next_val = end
+
+                if axis == "X":
+                    x1, x2 = min(curr, next_val), max(curr, next_val)
+                    z = fixed
+                    mcr.command(f"forceload add {x1} {z} {x2} {z}")
+                    mcr.command(f"fill {x1} 65 {z-1} {x2} 67 {z+1} minecraft:air keep")
+                    mcr.command(f"fill {x1} 63 {z} {x2} 63 {z} minecraft:polished_deepslate")
+                    mcr.command(f"fill {x1} 64 {z} {x2} 64 {z} minecraft:rail[shape={track_shape}]")
+                    for x in range(x1, x2 + 1):
+                        if abs(x) % 32 == 0:
+                            mcr.command(f"setblock {x} 63 {z} minecraft:redstone_block")
+                            mcr.command(f"setblock {x} 64 {z} minecraft:powered_rail[shape={track_shape}]")
+                        if abs(x) % 16 == 0:
+                            mcr.command(f"setblock {x} 64 {z+1} minecraft:pearlescent_froglight")
+                    mcr.command(f"forceload remove {x1} {z} {x2} {z}")
+                else:  # axis == 'Z'
+                    z1, z2 = min(curr, next_val), max(curr, next_val)
+                    x = fixed
+                    mcr.command(f"forceload add {x} {z1} {x} {z2}")
+                    mcr.command(f"fill {x-1} 65 {z1} {x+1} 67 {z2} minecraft:air keep")
+                    mcr.command(f"fill {x} 63 {z1} {x} 63 {z2} minecraft:polished_deepslate")
+                    mcr.command(f"fill {x} 64 {z1} {x} 64 {z2} minecraft:rail[shape={track_shape}]")
+                    for z in range(z1, z2 + 1):
+                        if abs(z) % 32 == 0:
+                            mcr.command(f"setblock {x} 63 {z} minecraft:redstone_block")
+                            mcr.command(f"setblock {x} 64 {z} minecraft:powered_rail[shape={track_shape}]")
+                        if abs(z) % 16 == 0:
+                            mcr.command(f"setblock {x+1} 64 {z} minecraft:pearlescent_froglight")
+                    mcr.command(f"forceload remove {x} {z1} {x} {z2}")
+
+                curr = next_val + step_dir
+
+        # 4. Ensure AI Lab Gateway Junction is clean unpowered switch over inert stone
+        mcr.command("forceload add -1540 -608 -1538 -608")
+        mcr.command("setblock -1539 63 -608 minecraft:polished_deepslate")
+        mcr.command("setblock -1539 64 -608 minecraft:rail[shape=north_south]")
+        mcr.command("forceload remove -1540 -608 -1538 -608")
+
+    print("[+] Successfully deployed all 2,036 blocks of the AI Containment Perimeter Railway!")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Containment Rail & Corner Builder")
     parser.add_argument("--all", action="store_true", help="Synthesize all corner schematics and manifests")
     parser.add_argument("--rcon-script", action="store_true", help="Generate standalone RCON deployment script")
     parser.add_argument("--execute-rcon", action="store_true", help="Execute generated RCON commands immediately")
+    parser.add_argument("--deploy-perimeter", action="store_true", help="Deploy the complete connected perimeter railway")
     args = parser.parse_args()
 
     # Default to generating all if no specific flags given
-    if not (args.all or args.rcon_script or args.execute_rcon):
+    if not (args.all or args.rcon_script or args.execute_rcon or args.deploy_perimeter):
         args.all = True
         args.rcon_script = True
 
@@ -573,6 +706,9 @@ def main():
         if script.exists():
             print("[*] Executing RCON deployment...")
             subprocess.run([str(script)], check=True)
+
+    if args.deploy_perimeter:
+        deploy_containment_perimeter_railway()
 
     print("[+] Railway synthesis complete.")
 
