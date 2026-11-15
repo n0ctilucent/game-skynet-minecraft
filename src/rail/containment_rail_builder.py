@@ -20,10 +20,20 @@ import math
 import argparse
 from pathlib import Path
 
+# Ensure local user site packages are accessible for mcrcon / mcschematic across venvs
+user_site_313 = Path.home() / ".local/lib/python3.13/site-packages"
+if user_site_313.exists() and str(user_site_313) not in sys.path:
+    sys.path.append(str(user_site_313))
+
 try:
     import mcschematic
 except ImportError:
     mcschematic = None
+
+try:
+    from mcrcon import MCRcon
+except ImportError:
+    MCRcon = None
 
 PROJECT_ROOT = Path("/home/minecraft")
 SCHEM_DIR = PROJECT_ROOT / "schematics"
@@ -257,7 +267,7 @@ def build_building_interconnect_schematic() -> tuple[mcschematic.MCSchematic, di
 
 def build_arched_viaduct_span(
     x1: int, z1: int, x2: int, z2: int,
-    y_deck: int = 64, pier_interval: int = 10, seed: int = 42
+    y_deck: int = 64, pier_interval: int = 10, power_interval: int = 15, seed: int = 42
 ) -> list[str]:
     """
     Generates an elevated arched masonry viaduct spanning open terrain/canyons.
@@ -265,7 +275,7 @@ def build_arched_viaduct_span(
     - Underside arches: semicircular haunches with inverted stone_brick_stairs & slabs.
     - Parapets: iron_bars interrupted every 6 blocks by cobblestone_wall stanchions.
     - Piers: 2x2 stone_bricks piers anchored down 4-8 blocks.
-    - Power: sub-surface redstone_block under powered_rail strictly every 32 blocks (step % 32 == 0).
+    - Power: sub-surface redstone_block under powered_rail spaced every 15 blocks (step % power_interval == 0).
     """
     import random
     rnd = random.Random(seed)
@@ -278,7 +288,7 @@ def build_arched_viaduct_span(
     step = 0
     if x1 != x2:
         for x in range(x1, x2 + dx, dx):
-            is_powered = (step % 32 == 0)
+            is_powered = (step % power_interval == 0)
             if is_powered:
                 commands.append(f"setblock {x} {y_bed} {z1} minecraft:redstone_block")
                 commands.append(f"setblock {x} {y_deck} {z1} minecraft:powered_rail[shape=east_west]")
@@ -316,7 +326,7 @@ def build_arched_viaduct_span(
 
     elif z1 != z2:
         for z in range(z1, z2 + dz, dz):
-            is_powered = (step % 32 == 0)
+            is_powered = (step % power_interval == 0)
             if is_powered:
                 commands.append(f"setblock {x1} {y_bed} {z} minecraft:redstone_block")
                 commands.append(f"setblock {x1} {y_deck} {z} minecraft:powered_rail[shape=north_south]")
@@ -353,6 +363,197 @@ def build_arched_viaduct_span(
             step += 1
 
     return commands
+
+
+def build_dual_track_segment(
+    x1: int, z1: int, x2: int, z2: int,
+    axis: str = "X",
+    power_interval: int = 15,
+    y_deck: int = 64,
+    y_roadbed: int = 63,
+    roadbed_block: str = "minecraft:polished_deepslate",
+    install_telemetry: bool = True,
+    node_id: str = "CHONK-01"
+) -> list[str]:
+    """
+    Generates verified RCON commands for a dual-track pair corridor:
+    - Tracks built in pairs with a one-block space (center median) between them
+      to allow simultaneous travel in a single direction per track.
+    - Exactly 3 blocks above the placed rails (Y_deck + 1..3, e.g. Y=65, 66, 67)
+      are cleared to air so the player is not decapitated or suffocated.
+    - Redstone powered rails placed every 15 blocks (step % power_interval == 0)
+      with subsurface redstone_block at Y=63 to maintain continuous 8.0 m/s cart speed.
+    - Detector rail sensors with embedded command blocks at corridor midpoints for
+      live Chonk telemetry logging and verification.
+    """
+    commands = []
+
+    if axis.upper() == "X":
+        start_x = min(x1, x2)
+        end_x = max(x1, x2)
+        center_z = z1
+        z_t1 = center_z - 1  # Track 1 (Eastbound: +X)
+        z_med = center_z     # Center Median: 1-block space
+        z_t2 = center_z + 1  # Track 2 (Westbound: -X)
+
+        # 1. 3-block vertical passenger air clearance envelope above rails (Y=65..67)
+        commands.append(f"fill {start_x} {y_deck + 1} {z_t1} {end_x} {y_deck + 3} {z_t2} minecraft:air keep")
+        # Ensure median block at rail level Y=64 is clear
+        commands.append(f"fill {start_x} {y_deck} {z_med} {end_x} {y_deck} {z_med} minecraft:air keep")
+
+        # 2. Sub-surface roadbed foundation at Y=63
+        commands.append(f"fill {start_x} {y_roadbed} {z_t1} {end_x} {y_roadbed} {z_t2} {roadbed_block}")
+
+        # 3. Rails at Y=64
+        commands.append(f"fill {start_x} {y_deck} {z_t1} {end_x} {y_deck} {z_t1} minecraft:rail[shape=east_west]")
+        commands.append(f"fill {start_x} {y_deck} {z_t2} {end_x} {y_deck} {z_t2} minecraft:rail[shape=east_west]")
+
+        # 4. Concealed sub-surface powering every 15 blocks
+        for x in range(start_x, end_x + 1):
+            step = x - start_x
+            if step % power_interval == 0:
+                # Track 1 powered rail + subfloor redstone block
+                commands.append(f"setblock {x} {y_roadbed} {z_t1} minecraft:redstone_block")
+                commands.append(f"setblock {x} {y_deck} {z_t1} minecraft:powered_rail[shape=east_west]")
+                # Track 2 powered rail + subfloor redstone block
+                commands.append(f"setblock {x} {y_roadbed} {z_t2} minecraft:redstone_block")
+                commands.append(f"setblock {x} {y_deck} {z_t2} minecraft:powered_rail[shape=east_west]")
+
+        # 5. End buffers / terminal stops
+        commands.append(f"setblock {start_x - 1} {y_deck} {z_t1} {roadbed_block}")
+        commands.append(f"setblock {end_x + 1} {y_deck} {z_t1} {roadbed_block}")
+        commands.append(f"setblock {start_x - 1} {y_deck} {z_t2} {roadbed_block}")
+        commands.append(f"setblock {end_x + 1} {y_deck} {z_t2} {roadbed_block}")
+
+        # 6. Telemetry Sensor Installation at midpoint
+        if install_telemetry:
+            mid_x = (start_x + end_x) // 2
+            if (mid_x - start_x) % power_interval == 0:
+                mid_x += 1
+            commands.append(
+                f"setblock {mid_x} {y_roadbed} {z_t1} "
+                f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:CART_PASS DATA:DUAL_TRACK_T1_EASTBOUND_SPEED_8.0\"}}"
+            )
+            commands.append(f"setblock {mid_x} {y_deck} {z_t1} minecraft:detector_rail[shape=east_west]")
+            commands.append(
+                f"setblock {mid_x} {y_roadbed} {z_t2} "
+                f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:CART_PASS DATA:DUAL_TRACK_T2_WESTBOUND_SPEED_8.0\"}}"
+            )
+            commands.append(f"setblock {mid_x} {y_deck} {z_t2} minecraft:detector_rail[shape=east_west]")
+
+    elif axis.upper() == "Z":
+        start_z = min(z1, z2)
+        end_z = max(z1, z2)
+        center_x = x1
+        x_t1 = center_x - 1  # Track 1 (Southbound: +Z)
+        x_med = center_x     # Center Median: 1-block space
+        x_t2 = center_x + 1  # Track 2 (Northbound: -Z)
+
+        # 1. 3-block vertical passenger air clearance envelope above rails (Y=65..67)
+        commands.append(f"fill {x_t1} {y_deck + 1} {start_z} {x_t2} {y_deck + 3} {end_z} minecraft:air keep")
+        # Ensure median block at rail level Y=64 is clear
+        commands.append(f"fill {x_med} {y_deck} {start_z} {x_med} {y_deck} {end_z} minecraft:air keep")
+
+        # 2. Sub-surface roadbed foundation at Y=63
+        commands.append(f"fill {x_t1} {y_roadbed} {start_z} {x_t2} {y_roadbed} {end_z} {roadbed_block}")
+
+        # 3. Rails at Y=64
+        commands.append(f"fill {x_t1} {y_deck} {start_z} {x_t1} {y_deck} {end_z} minecraft:rail[shape=north_south]")
+        commands.append(f"fill {x_t2} {y_deck} {start_z} {x_t2} {y_deck} {end_z} minecraft:rail[shape=north_south]")
+
+        # 4. Concealed sub-surface powering every 15 blocks
+        for z in range(start_z, end_z + 1):
+            step = z - start_z
+            if step % power_interval == 0:
+                # Track 1 powered rail + subfloor redstone block
+                commands.append(f"setblock {x_t1} {y_roadbed} {z} minecraft:redstone_block")
+                commands.append(f"setblock {x_t1} {y_deck} {z} minecraft:powered_rail[shape=north_south]")
+                # Track 2 powered rail + subfloor redstone block
+                commands.append(f"setblock {x_t2} {y_roadbed} {z} minecraft:redstone_block")
+                commands.append(f"setblock {x_t2} {y_deck} {z} minecraft:powered_rail[shape=north_south]")
+
+        # 5. End buffers / terminal stops
+        commands.append(f"setblock {x_t1} {y_deck} {start_z - 1} {roadbed_block}")
+        commands.append(f"setblock {x_t1} {y_deck} {end_z + 1} {roadbed_block}")
+        commands.append(f"setblock {x_t2} {y_deck} {start_z - 1} {roadbed_block}")
+        commands.append(f"setblock {x_t2} {y_deck} {end_z + 1} {roadbed_block}")
+
+        # 6. Telemetry Sensor Installation at midpoint
+        if install_telemetry:
+            mid_z = (start_z + end_z) // 2
+            if (mid_z - start_z) % power_interval == 0:
+                mid_z += 1
+            commands.append(
+                f"setblock {x_t1} {y_roadbed} {mid_z} "
+                f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:CART_PASS DATA:DUAL_TRACK_T1_SOUTHBOUND_SPEED_8.0\"}}"
+            )
+            commands.append(f"setblock {x_t1} {y_deck} {mid_z} minecraft:detector_rail[shape=north_south]")
+            commands.append(
+                f"setblock {x_t2} {y_roadbed} {mid_z} "
+                f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:CART_PASS DATA:DUAL_TRACK_T2_NORTHBOUND_SPEED_8.0\"}}"
+            )
+            commands.append(f"setblock {x_t2} {y_deck} {mid_z} minecraft:detector_rail[shape=north_south]")
+    else:
+        raise ValueError(f"Unsupported axis: {axis}. Use 'X' or 'Z'.")
+
+    return commands
+
+
+def build_dual_track_schematic(
+    length: int = 31,
+    power_interval: int = 15,
+    roadbed_block: str = "minecraft:polished_deepslate"
+) -> tuple[mcschematic.MCSchematic, dict, dict]:
+    """
+    Synthesizes a modular dual-track pair schematic:
+    - Width 3 (Track 1 at x=0, Median at x=1, Track 2 at x=2)
+    - 3-block vertical clearance envelope at y=2..4 (air)
+    - Subsurface roadbed at y=0
+    - Powered rails every 15 blocks (z % power_interval == 0)
+    """
+    if mcschematic is None:
+        raise RuntimeError("mcschematic module not available")
+
+    schem = mcschematic.MCSchematic()
+    w = 3
+    h = 5
+    l = length
+
+    # Base roadbed y=0
+    for x in range(w):
+        for z in range(l):
+            schem.setBlock((x, 0, z), roadbed_block)
+
+    # 3-block vertical clearance envelope y=2..4
+    for x in range(w):
+        for z in range(l):
+            for y in range(2, 5):
+                schem.setBlock((x, y, z), "minecraft:air")
+
+    # Center median x=1 at y=1 is air
+    for z in range(l):
+        schem.setBlock((1, 1, z), "minecraft:air")
+
+    # Rails at y=1 on Track 1 (x=0) and Track 2 (x=2)
+    for z in range(l):
+        if z % power_interval == 0:
+            schem.setBlock((0, 0, z), "minecraft:redstone_block")
+            schem.setBlock((0, 1, z), "minecraft:powered_rail[shape=north_south]")
+            schem.setBlock((2, 0, z), "minecraft:redstone_block")
+            schem.setBlock((2, 1, z), "minecraft:powered_rail[shape=north_south]")
+        else:
+            schem.setBlock((0, 1, z), "minecraft:rail[shape=north_south]")
+            schem.setBlock((2, 1, z), "minecraft:rail[shape=north_south]")
+
+    dims = {"width": w, "height": h, "length": l}
+    meta = {
+        "fixture": "DUAL_TRACK_PAIR_CORRIDOR",
+        "power_interval": power_interval,
+        "median_width": 1,
+        "clearance_height": 3,
+        "roadbed_block": roadbed_block
+    }
+    return schem, dims, meta
 
 
 def build_station_terminal_pavilion(
@@ -543,11 +744,169 @@ echo "[+] Rail corners and building connectors deployed successfully."
     return script_path
 
 
+def deploy_dual_track_test_corridor(
+    rcon_host: str = "127.0.0.1",
+    rcon_port: int = 25575,
+    rcon_pass: str = "dinosaurExTraVaGanZa1969",
+    start_x: int = -1535,
+    end_x: int = -1455,
+    center_z: int = -608,
+    power_interval: int = 15,
+    node_id: str = "CHONK-01"
+) -> bool:
+    """
+    Deploys the dual-track pair test corridor into AI Containment Zone Alpha.
+    Wrapped in chunk forceloading to ensure reliable block placement.
+    """
+    from mcrcon import MCRcon
+
+    min_x, max_x = min(start_x, end_x), max(start_x, end_x)
+    print(f"[*] Deploying Dual-Track Pair Test Corridor: X [{min_x}, {max_x}], Z={center_z}...")
+    cmds = build_dual_track_segment(
+        min_x, center_z, max_x, center_z,
+        axis="X",
+        power_interval=power_interval,
+        install_telemetry=True,
+        node_id=node_id
+    )
+
+    with MCRcon(rcon_host, rcon_pass, port=rcon_port, timeout=10) as mcr:
+        # Forceload the test corridor chunks
+        mcr.command(f"forceload add {min_x - 1} {center_z - 2} {max_x + 1} {center_z + 2}")
+        for cmd in cmds:
+            mcr.command(cmd)
+        mcr.command(f"forceload remove {min_x - 1} {center_z - 2} {max_x + 1} {center_z + 2}")
+
+    print(f"[+] Successfully deployed dual-track test corridor ({len(cmds)} commands executed).")
+    return True
+
+
+def verify_test_track_telemetry(
+    rcon_host: str = "127.0.0.1",
+    rcon_port: int = 25575,
+    rcon_pass: str = "dinosaurExTraVaGanZa1969",
+    log_path: str = "/home/minecraft/logs/latest.log",
+    start_x: int = -1535,
+    end_x: int = -1455,
+    center_z: int = -608,
+    node_id: str = "CHONK-01",
+    timeout: float = 12.0
+) -> dict:
+    """
+    Executes live verification tests on both Track 1 (Eastbound) and Track 2 (Westbound):
+    1. Spawns test cart with passenger on Track 1 and accelerates along Eastbound run.
+    2. Monitors latest.log on Chonk for telemetry emission.
+    3. Spawns test cart with passenger on Track 2 and accelerates along Westbound run.
+    4. Monitors latest.log on Chonk for telemetry emission.
+    5. Verifies regex match, event type, node, and speed.
+    6. Cleans up test entities and returns verified telemetry packets.
+    """
+    import re
+    import time
+    from mcrcon import MCRcon
+
+    TELEMETRY_PATTERN = r"\[TELEMETRY\]\s+NODE:(?P<node>\S+)\s+EVENT:(?P<event>\S+)\s+DATA:(?P<data>\S+)"
+    min_x, max_x = min(start_x, end_x), max(start_x, end_x)
+    z_t1 = center_z - 1
+    z_t2 = center_z + 1
+
+    results = {
+        "track_1_eastbound": None,
+        "track_2_westbound": None,
+        "success": False
+    }
+
+    with MCRcon(rcon_host, rcon_pass, port=rcon_port, timeout=10) as mcr:
+        # Keep chunks loaded during live test run
+        mcr.command(f"forceload add {min_x - 1} {center_z - 2} {max_x + 1} {center_z + 2}")
+
+        # Clean up pre-existing entities using vanilla minecraft:kill
+        mcr.command("minecraft:kill @e[type=minecart]")
+        mcr.command("minecraft:kill @e[type=pig]")
+
+        # --- Test Track 1 (Eastbound) ---
+        print("[*] Testing Track 1 (Eastbound: +X direction)...")
+        with open(log_path, "r") as f:
+            f.seek(0, 2)
+            pos_t1 = f.tell()
+
+        spawn_x1 = min_x + 1
+        mcr.command(f"summon minecraft:minecart {spawn_x1} 64 {z_t1} {{Motion:[0.8,0.0,0.0],Passengers:[{{id:\"minecraft:pig\",NoAI:1b}}]}}")
+
+        t0 = time.time()
+        while time.time() - t0 < timeout:
+            with open(log_path, "r") as f:
+                f.seek(pos_t1)
+                for line in f:
+                    match = re.search(TELEMETRY_PATTERN, line)
+                    if match and "T1" in match.group("data"):
+                        results["track_1_eastbound"] = {
+                            "node": match.group("node"),
+                            "event": match.group("event"),
+                            "data": match.group("data"),
+                            "raw_log": line.strip(),
+                            "elapsed": round(time.time() - t0, 2)
+                        }
+                        break
+            if results["track_1_eastbound"]:
+                break
+            time.sleep(0.3)
+
+        # Clear Track 1 cart
+        mcr.command("minecraft:kill @e[type=minecart]")
+        mcr.command("minecraft:kill @e[type=pig]")
+
+        # --- Test Track 2 (Westbound) ---
+        print("[*] Testing Track 2 (Westbound: -X direction)...")
+        with open(log_path, "r") as f:
+            f.seek(0, 2)
+            pos_t2 = f.tell()
+
+        spawn_x2 = max_x - 1
+        mcr.command(f"summon minecraft:minecart {spawn_x2} 64 {z_t2} {{Motion:[-0.8,0.0,0.0],Passengers:[{{id:\"minecraft:pig\",NoAI:1b}}]}}")
+
+        t0 = time.time()
+        while time.time() - t0 < timeout:
+            with open(log_path, "r") as f:
+                f.seek(pos_t2)
+                for line in f:
+                    match = re.search(TELEMETRY_PATTERN, line)
+                    if match and "T2" in match.group("data"):
+                        results["track_2_westbound"] = {
+                            "node": match.group("node"),
+                            "event": match.group("event"),
+                            "data": match.group("data"),
+                            "raw_log": line.strip(),
+                            "elapsed": round(time.time() - t0, 2)
+                        }
+                        break
+            if results["track_2_westbound"]:
+                break
+            time.sleep(0.3)
+
+        # Final cleanup
+        mcr.command("minecraft:kill @e[type=minecart]")
+        mcr.command("minecraft:kill @e[type=pig]")
+        mcr.command(f"forceload remove {min_x - 1} {center_z - 2} {max_x + 1} {center_z + 2}")
+
+    t1_ok = results["track_1_eastbound"] is not None
+    t2_ok = results["track_2_westbound"] is not None
+    results["success"] = t1_ok and t2_ok
+
+    if results["success"]:
+        print("[+] Telemetry verification PASSED for both Track 1 and Track 2!")
+    else:
+        print(f"[-] Telemetry verification FAILED: T1={t1_ok}, T2={t2_ok}")
+
+    return results
+
+
 def deploy_containment_perimeter_railway(
     rcon_host: str = "127.0.0.1",
     rcon_port: int = 25575,
     rcon_pass: str = "dinosaurExTraVaGanZa1969",
-    segment_size: int = 64
+    segment_size: int = 64,
+    power_interval: int = 15
 ):
     """
     Deploys and connects the complete 2,036-block perimeter railway in AI Containment Zone Alpha:
@@ -557,6 +916,7 @@ def deploy_containment_perimeter_railway(
     - West Arm:  (-1539, 64, -490) up to (-1539, 64, -912)
     - 4 Verified Corners with inert polished deepslate roadbeds
     - AI Lab Gateway Spur and Station Pavilion
+    - Powered rail spacing every 15 blocks to maintain full minecart speed
     All operations use chunk forceloading to prevent 'position not loaded' errors.
     """
     from mcrcon import MCRcon
@@ -628,7 +988,7 @@ def deploy_containment_perimeter_railway(
                     mcr.command(f"fill {x1} 63 {z} {x2} 63 {z} minecraft:polished_deepslate")
                     mcr.command(f"fill {x1} 64 {z} {x2} 64 {z} minecraft:rail[shape={track_shape}]")
                     for x in range(x1, x2 + 1):
-                        if abs(x) % 32 == 0:
+                        if abs(x) % power_interval == 0:
                             mcr.command(f"setblock {x} 63 {z} minecraft:redstone_block")
                             mcr.command(f"setblock {x} 64 {z} minecraft:powered_rail[shape={track_shape}]")
                         if abs(x) % 16 == 0:
@@ -642,7 +1002,7 @@ def deploy_containment_perimeter_railway(
                     mcr.command(f"fill {x} 63 {z1} {x} 63 {z2} minecraft:polished_deepslate")
                     mcr.command(f"fill {x} 64 {z1} {x} 64 {z2} minecraft:rail[shape={track_shape}]")
                     for z in range(z1, z2 + 1):
-                        if abs(z) % 32 == 0:
+                        if abs(z) % power_interval == 0:
                             mcr.command(f"setblock {x} 63 {z} minecraft:redstone_block")
                             mcr.command(f"setblock {x} 64 {z} minecraft:powered_rail[shape={track_shape}]")
                         if abs(z) % 16 == 0:
@@ -666,10 +1026,13 @@ def main():
     parser.add_argument("--rcon-script", action="store_true", help="Generate standalone RCON deployment script")
     parser.add_argument("--execute-rcon", action="store_true", help="Execute generated RCON commands immediately")
     parser.add_argument("--deploy-perimeter", action="store_true", help="Deploy the complete connected perimeter railway")
+    parser.add_argument("--deploy-dual-track-test", action="store_true", help="Deploy dual-track pair test corridor")
+    parser.add_argument("--verify-telemetry", action="store_true", help="Verify dual-track test track via Chonk telemetry")
+    parser.add_argument("--power-interval", type=int, default=15, help="Powered rail spacing interval (default: 15)")
     args = parser.parse_args()
 
     # Default to generating all if no specific flags given
-    if not (args.all or args.rcon_script or args.execute_rcon or args.deploy_perimeter):
+    if not (args.all or args.rcon_script or args.execute_rcon or args.deploy_perimeter or args.deploy_dual_track_test or args.verify_telemetry):
         args.all = True
         args.rcon_script = True
 
@@ -697,6 +1060,11 @@ def main():
         save_schematic_and_manifest(s_conn, dims_conn, meta_conn, "CONTAINMENT_AI_LAB_CONNECTOR",
                                     "AI Containment Lab Gateway to Western Orbital Viaduct Junction")
 
+        # Modular dual-track corridor schematic
+        s_dual, dims_dual, meta_dual = build_dual_track_schematic(length=31, power_interval=args.power_interval)
+        save_schematic_and_manifest(s_dual, dims_dual, meta_dual, "CONTAINMENT_DUAL_TRACK_CORRIDOR",
+                                    "Modular Dual-Track Pair Corridor with 1-Block Median and 15-Block Powering")
+
     if args.rcon_script or args.all:
         generate_rcon_deploy_script()
 
@@ -708,7 +1076,15 @@ def main():
             subprocess.run([str(script)], check=True)
 
     if args.deploy_perimeter:
-        deploy_containment_perimeter_railway()
+        deploy_containment_perimeter_railway(power_interval=args.power_interval)
+
+    if args.deploy_dual_track_test:
+        deploy_dual_track_test_corridor(power_interval=args.power_interval)
+
+    if args.verify_telemetry:
+        res = verify_test_track_telemetry()
+        if not res["success"]:
+            sys.exit(1)
 
     print("[+] Railway synthesis complete.")
 

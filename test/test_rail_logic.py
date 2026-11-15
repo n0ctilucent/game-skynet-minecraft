@@ -139,5 +139,24 @@ async def test_rail_telemetry_processor_orchestration_flow(
     mock_rail_traffic_logger.error.assert_not_called()
 
 
+def test_dual_track_segment_invariants():
+    """Verify dual tracks adhere to 1-block median space, 3-block air clearance, and 15-block powering."""
+    from rail.containment_rail_builder import build_dual_track_segment
+    cmds = build_dual_track_segment(-1535, -608, -1455, -608, axis="X", power_interval=15)
+
+    # 1. Spacing invariant: Track 1 at Z=-609, Track 2 at Z=-607, Median at Z=-608 (1-block space)
+    assert any("fill -1535 64 -608 -1455 64 -608 minecraft:air keep" in c for c in cmds)
+    # 2. Clearance invariant: 3 blocks of air above rails (Y=65..67)
+    assert "fill -1535 65 -609 -1455 67 -607 minecraft:air keep" in cmds
+    # 3. Powering invariant: Powered rails spaced 15 blocks apart (step % 15 == 0)
+    assert "setblock -1535 63 -609 minecraft:redstone_block" in cmds
+    assert "setblock -1535 64 -609 minecraft:powered_rail[shape=east_west]" in cmds
+    assert "setblock -1520 63 -609 minecraft:redstone_block" in cmds
+    assert "setblock -1520 64 -609 minecraft:powered_rail[shape=east_west]" in cmds
+    # 4. Telemetry detector sensor invariant
+    assert any("minecraft:detector_rail" in c for c in cmds)
+    assert any("[TELEMETRY] NODE:CHONK-01" in c for c in cmds)
+
+
 if __name__ == "__main__":
     pytest.main([__file__])
