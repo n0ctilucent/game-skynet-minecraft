@@ -27,24 +27,7 @@ fi
 log_header "[$(date)] Running BlueMap Structural Linter" | tee -a "${LOG_FILE}"
 log_info "Analyzing structural balance for ${TARGET_FILE}..." | tee -a "${LOG_FILE}"
 
-# Execute the refined Python parsing logic and route STDOUT to the log file
-python3 - << 'EOF' 2>&1 | tee -a "${LOG_FILE}"
-import sys
-import os
-
-file_path = os.environ.get('TARGET_FILE', sys.argv[1] if len(sys.argv) > 1 else None)
-# Grab target from the bash wrapper argument
-file_path = sys.argv[1] if len(sys.argv) > 1 else None
-
-# Fallback in case python doesn't get the arg directly from bash
-if not file_path:
-    # Read from the bash variable passed in
-    file_path = os.environ.get('TARGET_FILE', "")
-
-# If we're using a heredoc, we can just hardcode the bash variable interpolation
-EOF
-
-# Note: Above python was a mockup. Here is the actual execution block:
+# Execute structural balancer and route output to log file
 python3 - "$TARGET_FILE" << 'EOF' 2>&1 | tee -a "${LOG_FILE}"
 import sys
 import os
@@ -72,7 +55,7 @@ for line in lines:
     # 2. Extract structural braces trapped behind inline comments
     if "#" in line and not stripped.startswith("#"):
         parts = line.split("#", 1)
-        code = parts
+        code = parts[0]
         comment = parts[1]
         
         extracted_braces = ""
@@ -83,7 +66,7 @@ for line in lines:
             else:
                 clean_comment += char
                 
-        output_lines.append(code + " # " + clean_comment + "\n")
+        output_lines.append(code + "# " + clean_comment.rstrip() + "\n")
         if extracted_braces:
             print(f"NOTICE: Rescued trapped structural braces '{extracted_braces}' from inline comment.")
             output_lines.append(extracted_braces + "\n")
