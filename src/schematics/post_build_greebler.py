@@ -19,6 +19,13 @@ HEALTH_TOOL = "/home/franklin/.openclaw/workspace-mc/tools/health.py"
 SAFETY_TEST = "/home/franklin/workspace/gaming/game-skynet-minecraft/test/test_schematic_boundary_safety.py"
 CONTAINMENT_BUILDER = "/home/minecraft/src/containment_rail_builder.py"
 
+# Ensure builders path is available for urban_greebler
+BUILDERS_DIR = "/home/franklin/workspace/gaming/game-skynet-minecraft/src/schematics/builders"
+if BUILDERS_DIR not in sys.path:
+    sys.path.insert(0, BUILDERS_DIR)
+
+import urban_greebler
+
 # Ground-truth AI Containment Zone Alpha bounds
 CONTAINMENT_BOUNDS = {
     "x": (-1539, -945),
@@ -222,6 +229,82 @@ def generate_rail_corridor_commands(x1: int, z1: int, x2: int, z2: int, y_rail: 
     return commands
 
 
+def compile_urban_greebles(manifest: dict) -> list[str]:
+    """Compile street-level infrastructure, human clutter, and rooftop mechanicals."""
+    cmds = []
+    
+    # Promenades
+    for p in manifest.get("street_promenades", []):
+        f = p.get("from", [-1200, -700])
+        t = p.get("to", [-1180, -700])
+        cmds.extend(urban_greebler.build_promenade(
+            f[0], f[1], t[0], t[1],
+            y=p.get("y", 63), width=p.get("width", 3), seed=p.get("seed", 42)
+        ))
+
+    # Lamp posts
+    for lp in manifest.get("lamp_posts", []):
+        cmds.extend(urban_greebler.build_lamp_post(
+            lp["x"], lp.get("y", 63), lp["z"],
+            style=lp.get("style", "warm"), height=lp.get("height", 4)
+        ))
+
+    # Guardrails
+    for gr in manifest.get("guardrails", []):
+        f = gr.get("from", [-1200, -700])
+        t = gr.get("to", [-1180, -700])
+        cmds.extend(urban_greebler.build_guardrail(
+            f[0], f[1], t[0], t[1], y=gr.get("y", 64)
+        ))
+
+    # Market stalls
+    for ms in manifest.get("market_stalls", []):
+        cmds.extend(urban_greebler.build_market_stall(
+            ms["x"], ms.get("y", 63), ms["z"],
+            facing=ms.get("facing", "south"), theme=ms.get("theme", "red_white")
+        ))
+
+    # Gathering nooks
+    for gn in manifest.get("gathering_nooks", []):
+        cmds.extend(urban_greebler.build_gathering_nook(
+            gn["x"], gn.get("y", 63), gn["z"]
+        ))
+
+    # Piers
+    for pr in manifest.get("piers", []):
+        cmds.extend(urban_greebler.build_pier(
+            pr["x"], pr.get("y_water", 62), pr["z"],
+            length=pr.get("length", 6), width=pr.get("width", 3), axis=pr.get("axis", "z")
+        ))
+
+    # Chimneys
+    for ch in manifest.get("chimneys", []):
+        cmds.extend(urban_greebler.build_chimney_vent(
+            ch["x"], ch.get("y_roof", 70), ch["z"], height=ch.get("height", 4)
+        ))
+
+    # Rooftop mechanicals
+    for rm in manifest.get("rooftop_mechanicals", []):
+        cmds.extend(urban_greebler.build_hvac_and_solar(
+            rm["x"], rm.get("y_roof", 75), rm["z"]
+        ))
+
+    # Window boxes
+    for wb in manifest.get("window_boxes", []):
+        cmds.extend(urban_greebler.build_window_flower_box(
+            wb["x"], wb.get("y", 65), wb["z"],
+            facing=wb.get("facing", "south"), flower=wb.get("flower", "spruce_sapling")
+        ))
+
+    # Snow flora
+    for sf in manifest.get("snow_flora", []):
+        cmds.extend(urban_greebler.build_snow_flora(
+            sf["x"], sf.get("y", 63), sf["z"]
+        ))
+
+    return cmds
+
+
 def execute_pipeline(manifest_path: Path, dry_run: bool = False, skip_tps: bool = False) -> dict:
     """Orchestrate 5-stage post-build greebling & integration."""
     with open(manifest_path, "r") as f:
@@ -237,6 +320,7 @@ def execute_pipeline(manifest_path: Path, dry_run: bool = False, skip_tps: bool 
 
     results = {
         "rcon_batches_executed": 0,
+        "urban_greeble_commands_executed": 0,
         "villagers_spawned": 0,
         "rail_commands_executed": 0
     }
@@ -247,8 +331,12 @@ def execute_pipeline(manifest_path: Path, dry_run: bool = False, skip_tps: bool 
             if not validate_boundary_safety(x, z):
                 raise ValueError(f"Manifest bounding box point ({x}, {z}) violates AI Containment bounds.")
 
+    urban_cmds = compile_urban_greebles(manifest)
+    results["urban_greeble_count"] = len(urban_cmds)
+
     if dry_run:
         print(f"[DRY-RUN] Manifest validated for bbox: {bbox}")
+        print(f"[DRY-RUN] Generated {len(urban_cmds)} urban greeble commands.")
         results["dry_run"] = True
         return results
 
@@ -256,11 +344,17 @@ def execute_pipeline(manifest_path: Path, dry_run: bool = False, skip_tps: bool 
     force_load_region(bbox["x1"], bbox["z1"], bbox["x2"], bbox["z2"], enable=True)
 
     try:
-        # Stage 2 & 3: Greeble and Furniture RCON Batches
+        # Stage 1: Base RCON Batches
         for cmd in manifest.get("rcon_batches", []):
             rcon_execute(cmd)
             results["rcon_batches_executed"] += 1
             time.sleep(0.02)
+
+        # Stage 2 & 3: Street Infrastructure, Clutter, and Rooftop Greebles
+        for cmd in urban_cmds:
+            rcon_execute(cmd)
+            results["urban_greeble_commands_executed"] += 1
+            time.sleep(0.01)
 
         # Stage 4: Villager Population
         for v in manifest.get("villager_spawns", []):

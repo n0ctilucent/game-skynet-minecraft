@@ -12,6 +12,19 @@ from .station2 import build as build_station
 from .t2bm_expander import build_t2bm
 from .terrain import build_terrain
 from .tower import build_tower
+from .urban_greebler import (
+    build_promenade,
+    build_lamp_post,
+    build_guardrail,
+    build_market_stall,
+    build_gathering_nook,
+    build_pier,
+    build_chimney_vent,
+    build_hvac_and_solar,
+    build_window_flower_box,
+    build_snow_flora,
+    DISTRICT_PALETTE
+)
 from .wall import build_wall
 
 BUILDERS = {
@@ -28,4 +41,5 @@ BUILDERS = {
     "t2bm": build_t2bm,
     "signal_siphon": build_signal_siphon,
     "quantum_foundry": build_quantum_foundry,
+    "urban_greebler": urban_greebler,
 }
