@@ -1,0 +1,100 @@
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{qrcode}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+% --- Document Metadata ---
+\title[The Quest for Greebling v2]{The Quest for Greebling}
+\subtitle{Recreational AI Orchestration of Minecraft Activities}
+\author[Franklin D.]{Franklin D.}
+\institute[minecraft.bitsmasher.net]{Lab Research Node: \texttt{minecraft.bitsmasher.net}}
+\date{\today}
+
+% --- HIGH CONTRAST MODERN CYBERPUNK PALETTE ---
+\definecolor{bgdark}{RGB}{20, 24, 33}          % Deep slate background
+\definecolor{textlight}{RGB}{242, 245, 249}     % Crisp white/light-gray text
+\definecolor{textmuted}{RGB}{160, 174, 192}     % Muted secondary text
+\definecolor{accentcyan}{RGB}{0, 210, 255}      % Electric cyan
+\definecolor{accentemerald}{RGB}{0, 230, 118}   % Emerald mirror green
+\definecolor{accentamber}{RGB}{255, 179, 0}     % Alert/warning amber
+\definecolor{deepslate}{RGB}{30, 37, 51}        % Card/box background
+\definecolor{headerblue}{RGB}{12, 17, 26}       % Deep bar header tone
+\definecolor{borderblue}{RGB}{45, 55, 72}       % Card borders
+\definecolor{codebg}{RGB}{14, 18, 25}           % Code background
+
+% --- BEAMER THEME COLOR OVERRIDES ---
+\setbeamercolor{background canvas}{bg=bgdark}
+\setbeamercolor{normal text}{fg=textlight}
+\setbeamercolor{frametitle}{bg=headerblue, fg=accentcyan}
+\setbeamercolor{frametitle right}{bg=headerblue}
+\setbeamercolor{title}{bg=headerblue, fg=white}
+\setbeamercolor{subtitle}{fg=accentcyan}
+\setbeamercolor{item}{fg=accentcyan}
+\setbeamercolor{subitem}{fg=accentemerald}
+\setbeamercolor{subsubitem}{fg=accentamber}
+\setbeamercolor{section in toc}{fg=white}
+\setbeamercolor{section in toc shaded}{fg=textmuted}
+
+% Footer & Header Colors
+\setbeamercolor{author in head/foot}{bg=headerblue, fg=textmuted}
+\setbeamercolor{title in head/foot}{bg=deepslate, fg=accentcyan}
+\setbeamercolor{date in head/foot}{bg=headerblue, fg=textmuted}
+
+% Block Colors
+\setbeamercolor{block title}{bg=deepslate!90!accentcyan, fg=accentcyan}
+\setbeamercolor{block body}{bg=deepslate, fg=textlight}
+\setbeamercolor{block title alerted}{bg=deepslate!90!accentamber, fg=accentamber}
+\setbeamercolor{block body alerted}{bg=deepslate, fg=textlight}
+\setbeamercolor{block title example}{bg=deepslate!90!accentemerald, fg=accentemerald}
+\setbeamercolor{block body example}{bg=deepslate, fg=textlight}
+
+% Hide or style navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Presenter Note Configuration (Clean readable dark-on-light in note view)
+\setbeamercolor{note page}{bg=white, fg=black}
+\setbeamercolor{note title}{bg=gray!20, fg=black}
+\setbeamertemplate{note page}{%
+  \begin{minipage}{\textwidth}
+    \color{black}
+    \insertnote{}
+  \end{minipage}
+}
+
+% --- CODE LISTINGS STYLE ---
+\lstset{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\scriptsize\color{textlight},
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{textmuted}\itshape,
+  keywordstyle=\color{accentcyan}\bfseries,
+  stringstyle=\color{accentemerald},
+  numbers=none,
+  frame=single,
+  rulecolor=\color{borderblue},
+  showspaces=false,
+  showstringspaces=false,
+  tabsize=2
+}
+
+% --- SECTION TRANSITION SLIDES ---
+\AtBeginSection[]{
+  \begin{frame}[plain]
+    \vfill
+    \centering
+    \begin{beamercolorbox}[sep=12pt,center,rounded=true,shadow=false]{frametitle}
+      {\Huge \textcolor{accentcyan}{\bfseries \insertsectionhead}}\par%
+      \vspace{0.4cm}
+      {\small \textcolor{textmuted}{Bitsmasher Minecraft AI Research Cluster}}
+    \end{beamercolorbox}
+    \vfill
+  \end{frame}
+}

@@ -2,9 +2,9 @@
 
 Welcome to a world that bridges over a decade of history with the cutting edge of AI-driven Minecraft engineering. 
 
-[![View Slides](https://img.shields.io/badge/Presentation-Download_PDF-blue?logo=adobe-acrobat-reader&logoColor=white)](https://github.com/pale-shadow/game-skynet-minecraft/blob/main/docs/slides/quest-for-greebling.pdf) [![Bandit Security Scan](https://github.com/pale-shadow/game-skynet-minecraft/actions/workflows/bandit.yml/badge.svg)](https://github.com/pale-shadow/game-skynet-minecraft/actions/workflows/bandit.yml)
+[![View Slides](https://img.shields.io/badge/Presentation-Download_PDF_(v2)-blue?logo=adobe-acrobat-reader&logoColor=white)](https://github.com/n0ctilucent/game-skynet-minecraft/blob/main/docs/slides/quest-for-greebling-v2.pdf) [![Bandit Security Scan](https://github.com/n0ctilucent/game-skynet-minecraft/actions/workflows/bandit.yml/badge.svg)](https://github.com/n0ctilucent/game-skynet-minecraft/actions/workflows/bandit.yml)
 
-![tech void nihilism as software architecture](https://github.com/pale-shadow/game-skynet-minecraft/blob/main/static/images/skynet_unified_brain_architecture.png)
+![tech void nihilism as software architecture](https://github.com/n0ctilucent/game-skynet-minecraft/blob/main/static/images/skynet_unified_brain_architecture.png)
 
 ## 🌐 Server Information
 *   **Server Address:** `minecraft.bitsmasher.net`
@@ -48,4 +48,4 @@ For instructions on running local models (like Llama 3.1) on the Stargate node, 
 For full system architecture, see the canonical server manual at:
 👉 **[`/home/minecraft/docs/manual/`](file:///home/minecraft/docs/manual/)**
 
-![tech void nihilism as building fashion](https://github.com/pale-shadow/game-skynet-minecraft/blob/main/static/images/infographic.png)
+![tech void nihilism as building fashion](https://github.com/n0ctilucent/game-skynet-minecraft/blob/main/static/images/infographic.png)

@@ -8,7 +8,8 @@ PYTHONPATH_ENV = PYTHONPATH=.:./src:./src/skynet:./src/schematics:./src/schemati
 
 .PHONY: python test remote-audit backup clean lint stargate edge-t \
         deploy-containment deploy-transit check-rail node901-status \
-        node901-synthesis regenerate-greebles server-tps
+        node901-synthesis regenerate-greebles server-tps \
+        slides slides-v2 slides-v1 lint-slides
 
 # Project: game-skynet-minecraft (bitsmasher.net)
 # Environment: Paper 1.21.1 / build 26.2
@@ -79,6 +80,21 @@ server-tps:
 backup:
 	@echo "==> Synchronizing BSFR Technical Ledger to GitHub..."
 	./bin/backup_to_git.sh
+
+# Presentation Slides (v2 default)
+slides: slides-v2
+
+slides-v2:
+	@echo "==> Compiling Skynet Presentation Slides (v2)..."
+	$(MAKE) -C docs/slides pdf-v2
+
+slides-v1:
+	@echo "==> Compiling Legacy Presentation Slides (v1)..."
+	$(MAKE) -C docs/slides pdf-v1
+
+lint-slides:
+	@echo "==> Auditing Skynet Presentation Slides (v2)..."
+	$(MAKE) -C docs/slides lint
 
 clean:
 	rm -rf $(VENV)

@@ -1,6 +1,6 @@
 # Skynet Distributed Test Suite
 
-- [Minecraft stuff](https://github.com/pale-shadow/game-skynet-minecraft)
+- [Minecraft stuff](https://github.com/n0ctilucent/game-skynet-minecraft)
 
 This directory contains the validation framework for the Stargate MCP and the hardware-accelerated "Void-Tech" infrastructure. These tests ensure that AI-driven urbanization remains within the **20 TPS performance ceiling** [1].
 
