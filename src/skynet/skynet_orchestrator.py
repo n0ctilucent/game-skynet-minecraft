@@ -2,11 +2,16 @@ import json
 import logging
 import os
 import random
+import sys
 import time
+from pathlib import Path
+
+# Ensure src root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import requests
-from config_utils import Config, setup_logging
-from skynet_unified import SkynetUnifiedDaemon
+from skynet.skynet_unified import SkynetUnifiedDaemon
+from utils.config_utils import Config, setup_logging
 
 logger = setup_logging("skynet_orchestrator")
 

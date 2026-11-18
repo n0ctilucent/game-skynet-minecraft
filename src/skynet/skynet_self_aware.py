@@ -2,17 +2,22 @@ import logging
 import os
 import random
 import subprocess
+import sys
 import time
 from datetime import datetime
+from pathlib import Path
 
-from npu_spatial_engine import NPUSpatialEngine
-from place_ai_warning_signs import place_random_warning
-from skynet_process import get_node_logic, push_build_to_chonk
+# Ensure src root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from skynet.npu_spatial_engine import NPUSpatialEngine
+from skynet.place_ai_warning_signs import place_random_warning
+from skynet.skynet_process import get_node_logic, push_build_to_chonk
+from utils.config_utils import setup_logging
 
 # Unified Configuration: Phase 2.1 [378, 416, Conversation]
 SLEEP_INTERVAL = 3600  # Exact 1-hour cycle
 TEMP_THRESHOLD = 75.0  # Pi 5 Thermal Limit
-LOG_FILE = "../../logs/skynet_unified.log"
 SECTORS = [
     "Shroomville Urban District",
     "Silicon Ridge (Beta-Zone)",
@@ -26,9 +31,6 @@ AI_CLUSTER = {
     "node_vision": {"hardware": "AI Vision Node", "focus": "Perimeter Security"},
 }
 
-from utils.config_utils import setup_logging
-
-# Professional Logging Configuration [Conversation]
 logger = setup_logging("skynet_self_aware")
 
 
@@ -37,7 +39,7 @@ def get_temp():
         res = subprocess.check_output(["vcgencmd", "measure_temp"]).decode("utf-8")
         return float(res.replace("temp=", "").replace("'C\n", ""))
     except Exception as e:
-        logging.error(f"Thermal Hardware Failure: {e}")
+        logger.error(f"Thermal Hardware Failure: {e}")
         return 0.0
 
 
@@ -60,8 +62,8 @@ def generate_unified_metadata(build_name, node_info, sector):
 
 
 def run_unified_brain():
-    logging.info("🧠 Skynet Unified AI Brain: ONLINE")
-    logging.info(
+    logger.info("🧠 Skynet Unified AI Brain: ONLINE")
+    logger.info(
         f"📡 Monitoring Nodes: {', '.join([n['hardware'] for n in AI_CLUSTER.values()])}"
     )
 
@@ -72,10 +74,10 @@ def run_unified_brain():
     while True:
         cycle_count += 1
         temp = get_temp()
-        logging.info(f"--- Unified Cycle {cycle_count} | Temp: {temp}'C ---")
+        logger.info(f"--- Unified Cycle {cycle_count} | Temp: {temp}'C ---")
 
         if temp > TEMP_THRESHOLD:
-            logging.warning(
+            logger.warning(
                 "⚠ Thermal Throttling: High NPU load detected. Waiting 60s..."
             )
             time.sleep(60)
@@ -83,21 +85,21 @@ def run_unified_brain():
 
         # 1. Structural Integrity Audit (Phase 2)
         try:
-            logging.info("🧠 Auditing structural integrity for macro-builds...")
+            logger.info("🧠 Auditing structural integrity for macro-builds...")
             for build in npu_engine.history[-3:]:
                 if "x" in build and "z" in build:
                     x, z = build["x"], build["z"]
                     w, d = build.get("w", 10), build.get("d", 10)
                     npu_engine.calculate_structural_integrity(x, z, w, d)
         except Exception as e:
-            logging.error(f"Audit Error: {e}")
+            logger.error(f"Audit Error: {e}")
 
         # 2. Void Reclamation Signage [424, Conversation]
         try:
-            logging.info("🚩 Deploying randomized Void Reclamation warning...")
+            logger.info("🚩 Deploying randomized Void Reclamation warning...")
             place_random_warning()
         except Exception as e:
-            logging.error(f"Signage Error: {e}")
+            logger.error(f"Signage Error: {e}")
 
         # 3. Randomized Cluster Construction [378, 381, Conversation]
         try:
@@ -106,17 +108,17 @@ def run_unified_brain():
             sector = "AI Containment Area"
             build_name = f"Void-Tech {random.randint(100, 999)}"
 
-            logging.info(f"🏗 Delegating {build_name} to {node_info['hardware']}...")
+            logger.info(f"🏗 Delegating {build_name} to {node_info['hardware']}...")
             metadata = generate_unified_metadata(build_name, node_info, sector)
 
             cmds = get_node_logic(node=node_id, sector=sector, metadata=metadata)
             if cmds:
                 push_build_to_chonk(cmds)
-                logging.info(f"✅ Successfully urbanized {sector}")
+                logger.info(f"✅ Successfully urbanized {sector}")
         except Exception as e:
-            logging.error(f"Build Error: {e}")
+            logger.error(f"Build Error: {e}")
 
-        logging.info(f"💤 Cycle complete. Next sequence in {SLEEP_INTERVAL}s.")
+        logger.info(f"💤 Cycle complete. Next sequence in {SLEEP_INTERVAL}s.")
         time.sleep(SLEEP_INTERVAL)
 
 

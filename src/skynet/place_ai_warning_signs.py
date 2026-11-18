@@ -1,11 +1,17 @@
 import logging
 import os
 import random
+import sys
 import time
+from pathlib import Path
 
-from skynet_core import Config
+# Ensure src root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import mcrcon
+from utils.config_utils import Config, setup_logging
+
+logger = setup_logging("place_ai_warning_signs")
 
 # Void Reclamation Project Messages [378, 423, Conversation]
 VOID_MESSAGES = [
@@ -34,12 +40,12 @@ def place_random_warning():
     msg_set = random.choice(VOID_MESSAGES)
     nbt = get_sign_nbt(msg_set)
 
-    logging.info(f"🚩 Deploying warning to {target_x}, {target_z}...")
+    logger.info(f"🚩 Deploying warning to {target_x}, {target_z}...")
 
+    rcon_pass = os.getenv("RCON_PASS", Config.RCON_PASS)
     try:
-        # Utilizing the RCON credentials from your environment [1]
         with mcrcon.MCRcon(
-            Config.CHONK_IP, os.getenv("RCON_PASS"), port=Config.RCON_PORT
+            Config.CHONK_IP, rcon_pass, port=Config.RCON_PORT
         ) as mcr:
             mcr.command(f"forceload add {target_x} {target_z}")
             time.sleep(1)
@@ -53,6 +59,10 @@ def place_random_warning():
             )
 
             mcr.command(f"forceload remove {target_x} {target_z}")
-            logging.info(f"✅ Void Reclamation sign successfully placed.")
+            logger.info("✅ Void Reclamation sign successfully placed.")
     except Exception as e:
-        logging.error(f"❌ Signage Deployment Failure: {e}")
+        logger.error(f"❌ Signage Deployment Failure: {e}")
+
+
+if __name__ == "__main__":
+    place_random_warning()

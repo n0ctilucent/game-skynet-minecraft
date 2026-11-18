@@ -1,10 +1,15 @@
 import json
 import logging
 import os
+import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
 
-from skynet_core import setup_logging
-from skynet_process import get_hailo_structure_logic, get_node_logic
+# Ensure src root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from skynet.skynet_process import get_hailo_structure_logic, get_node_logic
+from utils.config_utils import setup_logging
 
 logger = setup_logging("skynet_agent")
 
@@ -12,9 +17,9 @@ logger = setup_logging("skynet_agent")
 class SkynetAgentHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         if self.path == "/infer":
-            content_length = int(self.headers["Content-Length"])
+            content_length = int(self.headers.get("Content-Length", 0))
             post_data = self.rfile.read(content_length)
-            params = json.loads(post_data.decode("utf-8"))
+            params = json.loads(post_data.decode("utf-8")) if post_data else {}
 
             logger.info(f"🧠 Received inference request: {params}")
 
@@ -35,12 +40,19 @@ class SkynetAgentHandler(BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
 
+    def log_message(self, format, *args):
+        logger.info(f"HTTP {format % args}")
+
 
 def run_agent(port=5000):
     server_address = ("", port)
     httpd = HTTPServer(server_address, SkynetAgentHandler)
     logger.info(f"📡 Skynet Agent listening on port {port}...")
-    httpd.serve_forever()
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        httpd.server_close()
+        logger.info("📡 Skynet Agent shut down.")
 
 
 if __name__ == "__main__":

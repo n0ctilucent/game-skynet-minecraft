@@ -12,6 +12,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from typing import Union
 
 # Tool and validation paths
 RCON_TOOL = "/home/franklin/.openclaw/workspace-mc/tools/rcon.py"
@@ -21,16 +22,10 @@ CONTAINMENT_BUILDER = "/home/minecraft/src/containment_rail_builder.py"
 
 # Ensure builders path is available for urban_greebler
 BUILDERS_DIR = "/home/franklin/workspace/gaming/game-skynet-minecraft/src/schematics/builders"
-RAIL_DIR = "/home/franklin/workspace/gaming/game-skynet-minecraft/src/rail"
-for p in (BUILDERS_DIR, RAIL_DIR):
-    if p not in sys.path:
-        sys.path.insert(0, p)
+if BUILDERS_DIR not in sys.path:
+    sys.path.insert(0, BUILDERS_DIR)
 
 import urban_greebler
-from containment_rail_builder import (
-    build_arched_viaduct_span,
-    build_station_terminal_pavilion
-)
 
 # Ground-truth AI Containment Zone Alpha bounds
 CONTAINMENT_BOUNDS = {
@@ -39,7 +34,7 @@ CONTAINMENT_BOUNDS = {
     "y_min": 60,
     "y_max": 128,
     "y_foundation": 63,
-    "y_rail": 64
+    "y_street": 64
 }
 
 # Supported workstation-to-villager profession mapping
@@ -107,8 +102,45 @@ def check_tps(min_tps: float = 19.0) -> bool:
         return False
 
 
+_MCR_SESSION = None
+
+def get_rcon_session():
+    global _MCR_SESSION
+    if _MCR_SESSION is not None:
+        return _MCR_SESSION
+    try:
+        from mcrcon import MCRcon
+        rcon_pass = os.environ.get("MC_RCON_PASS", "dinosaurExTraVaGanZa1969")
+        rcon_host = os.environ.get("MC_RCON_HOST", "127.0.0.1")
+        mcr = MCRcon(rcon_host, rcon_pass, port=25575, timeout=10)
+        mcr.connect()
+        _MCR_SESSION = mcr
+        return _MCR_SESSION
+    except Exception:
+        return None
+
+def close_rcon_session():
+    global _MCR_SESSION
+    if _MCR_SESSION is not None:
+        try:
+            _MCR_SESSION.disconnect()
+        except Exception:
+            pass
+        _MCR_SESSION = None
+
 def rcon_execute(cmd: str) -> str:
-    """Execute command via rcon.py or direct mcrcon."""
+    """Execute command via persistent MCRcon session, falling back to rcon.py or direct connection."""
+    mcr = get_rcon_session()
+    if mcr is not None:
+        try:
+            return mcr.command(cmd)
+        except Exception:
+            global _MCR_SESSION
+            _MCR_SESSION = None
+            mcr = get_rcon_session()
+            if mcr is not None:
+                return mcr.command(cmd)
+
     if os.path.exists(RCON_TOOL):
         try:
             res = subprocess.run(
@@ -120,7 +152,6 @@ def rcon_execute(cmd: str) -> str:
             )
             return res.stdout.strip()
         except Exception as e:
-            # Fall back to mcrcon directly
             pass
 
     try:
@@ -134,16 +165,23 @@ def rcon_execute(cmd: str) -> str:
 
 
 def force_load_region(x1: int, z1: int, x2: int, z2: int, enable: bool = True) -> None:
-    """Manage chunk forceloading across bounding envelope."""
+    """Manage chunk forceloading across bounding envelope, splitting large regions into <=128-block batches."""
     action = "add" if enable else "remove"
-    rcon_execute(f"forceload {action} {x1} {z1} {x2} {z2}")
+    min_x, max_x = min(x1, x2), max(x1, x2)
+    min_z, max_z = min(z1, z2), max(z1, z2)
+    step = 128
+    for x in range(min_x, max_x + 1, step):
+        chunk_x2 = min(x + step - 1, max_x)
+        for z in range(min_z, max_z + 1, step):
+            chunk_z2 = min(z + step - 1, max_z)
+            rcon_execute(f"forceload {action} {x} {z} {chunk_x2} {chunk_z2}")
 
 
-def validate_boundary_safety(x: int, z: int) -> bool:
-    """Ensure coordinates reside strictly within AI Containment Zone Alpha."""
+def validate_boundary_safety(x: int, z: int, margin: int = 10) -> bool:
+    """Ensure coordinates reside strictly within AI Containment Zone Alpha (with 10-block apron for facility interfaces)."""
     bx = CONTAINMENT_BOUNDS["x"]
     bz = CONTAINMENT_BOUNDS["z"]
-    return (bx[0] <= x <= bx[1]) and (bz[0] <= z <= bz[1])
+    return (bx[0] - margin <= x <= bx[1] + margin) and (bz[0] - margin <= z <= bz[1] + margin)
 
 
 def generate_villager_summon(x: int, y: int, z: int, workstation: str = None, profession: str = None) -> str:
@@ -158,87 +196,6 @@ def generate_villager_summon(x: int, y: int, z: int, workstation: str = None, pr
         f'VillagerData:{{level:2,profession:"{profession}",type:"minecraft:plains"}}}}'
     )
     return f"summon minecraft:villager {x} {y} {z} {nbt}"
-
-
-def generate_rail_corridor_commands(
-    x1: int, z1: int, x2: int, z2: int,
-    y_rail: int = 64, profile: str = "ground"
-) -> list[str]:
-    """
-    Generate rail corridor commands between two points.
-    - profile='ground' (Standard for AI Containment Area): Builds level with
-      ground/building entries at Y=64 (roadbed at Y=63).
-    - profile='viaduct' (For Canyons/Water and Exterior Expansion): Builds the
-      elevated stone brick arched viaduct with corbels, arch haunches,
-      2x2 piers, and iron_bars parapet.
-    """
-    if profile == "viaduct":
-        return build_arched_viaduct_span(x1, z1, x2, z2, y_deck=y_rail)
-
-    commands = []
-    y_bed = y_rail - 1
-
-    # Straight line along primary axis
-    dx = 1 if x2 >= x1 else -1
-    dz = 1 if z2 >= z1 else -1
-
-    current_x = x1
-    current_z = z1
-    step = 0
-
-    # Handle X traversal
-    if x1 != x2:
-        for x in range(x1, x2 + dx, dx):
-            if not validate_boundary_safety(x, current_z):
-                raise ValueError(f"Rail corridor at ({x}, {current_z}) breaches AI Containment boundary!")
-
-            # 1. Clearance envelope (3-wide x 3-high)
-            for dy in range(1, 4):
-                for offset in (-1, 0, 1):
-                    commands.append(f"setblock {x} {y_rail + dy} {current_z + offset} minecraft:air keep")
-
-            # 2. Roadbed and Powering
-            is_powered = (step % 32 == 0)
-            if is_powered:
-                commands.append(f"setblock {x} {y_bed} {current_z} minecraft:redstone_block")
-                commands.append(f"setblock {x} {y_rail} {current_z} minecraft:powered_rail[shape=east_west]")
-            else:
-                commands.append(f"setblock {x} {y_bed} {current_z} minecraft:polished_deepslate")
-                commands.append(f"setblock {x} {y_rail} {current_z} minecraft:rail[shape=east_west]")
-
-            # 3. Pier supports every 8 blocks
-            if step % 8 == 0:
-                for dy in range(1, 5):
-                    commands.append(f"setblock {x} {y_bed - dy} {current_z} minecraft:dark_prismarine_wall keep")
-
-            step += 1
-        current_x = x2
-
-    # Handle Z traversal
-    if z1 != z2:
-        for z in range(z1, z2 + dz, dz):
-            if not validate_boundary_safety(current_x, z):
-                raise ValueError(f"Rail corridor at ({current_x}, {z}) breaches AI Containment boundary!")
-
-            for dy in range(1, 4):
-                for offset in (-1, 0, 1):
-                    commands.append(f"setblock {current_x + offset} {y_rail + dy} {z} minecraft:air keep")
-
-            is_powered = (step % 32 == 0)
-            if is_powered:
-                commands.append(f"setblock {current_x} {y_bed} {z} minecraft:redstone_block")
-                commands.append(f"setblock {current_x} {y_rail} {z} minecraft:powered_rail[shape=north_south]")
-            else:
-                commands.append(f"setblock {current_x} {y_bed} {z} minecraft:polished_deepslate")
-                commands.append(f"setblock {current_x} {y_rail} {z} minecraft:rail[shape=north_south]")
-
-            if step % 8 == 0:
-                for dy in range(1, 5):
-                    commands.append(f"setblock {current_x} {y_bed - dy} {z} minecraft:dark_prismarine_wall keep")
-
-            step += 1
-
-    return commands
 
 
 def compile_urban_greebles(manifest: dict) -> list[str]:
@@ -325,10 +282,13 @@ def compile_urban_greebles(manifest: dict) -> list[str]:
     return cmds
 
 
-def execute_pipeline(manifest_path: Path, dry_run: bool = False, skip_tps: bool = False) -> dict:
-    """Orchestrate 5-stage post-build greebling & integration."""
-    with open(manifest_path, "r") as f:
-        manifest = json.load(f)
+def execute_pipeline(manifest_path: Union[Path, dict, str], dry_run: bool = False, skip_tps: bool = False) -> dict:
+    """Orchestrate 4-stage post-build greebling & urban detailing."""
+    if isinstance(manifest_path, dict):
+        manifest = manifest_path
+    else:
+        with open(manifest_path, "r") as f:
+            manifest = json.load(f)
 
     if not skip_tps and not dry_run:
         if not check_tps(19.0):
@@ -387,22 +347,16 @@ def execute_pipeline(manifest_path: Path, dry_run: bool = False, skip_tps: bool 
             results["villagers_spawned"] += 1
             time.sleep(0.02)
 
-        # Stage 5: Railway Linker
-        for stub in manifest.get("rail_stubs", []):
-            dest = stub.get("target_terminus")
-            if dest:
-                rail_cmds = generate_rail_corridor_commands(
-                    stub["x"], stub["z"],
-                    dest["x"], dest["z"],
-                    y_rail=stub.get("y", 64),
-                    profile=stub.get("profile", "ground")
-                )
-                for rcmd in rail_cmds:
-                    rcon_execute(rcmd)
-                    results["rail_commands_executed"] += 1
+        # Decoupled Architecture Note:
+        # Railway construction and closed-loop interconnects are managed independently
+        # by containment_rail_builder.py. Greebling strictly accentuates buildings and streetscapes.
+        if "rail_stubs" in manifest:
+            print("[INFO] Decoupled architecture: 'rail_stubs' ignored by post_build_greebler; "
+                  "dispatch to containment_rail_builder.py for dual-track loop interconnection.")
 
     finally:
         force_load_region(bbox["x1"], bbox["z1"], bbox["x2"], bbox["z2"], enable=False)
+        close_rcon_session()
 
     return results
 

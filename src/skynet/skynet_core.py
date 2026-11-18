@@ -1,10 +1,13 @@
 import os
 import re
 import subprocess
+import sys
 import time
 from datetime import datetime
+from pathlib import Path
 
-import mcschematic
+# Ensure src root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from utils.config_utils import Config, SkynetRCON, setup_logging
 

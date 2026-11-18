@@ -1,5 +1,13 @@
+import os
+import sys
+from pathlib import Path
+
+# Ensure src root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import nbtlib
 from nbtlib.tag import ByteArray, Compound, Int, Short, String
+from utils.config_utils import Config
 
 
 def generate_signal_core():
@@ -79,10 +87,7 @@ def generate_signal_core():
         }
     )
 
-    import os
-
-    from skynet_core import Config
-
+    os.makedirs(Config.SCHEM_DIR, exist_ok=True)
     output_path = os.path.join(Config.SCHEM_DIR, "signal_core.schem")
     schem.save(output_path)
     print(f"Schematic '{output_path}' generated successfully.")

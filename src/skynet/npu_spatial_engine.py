@@ -3,8 +3,14 @@ import math
 import os
 import random
 import sys
+from pathlib import Path
 
-from utils.config_utils import Config
+# Ensure src root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from utils.config_utils import Config, setup_logging
+
+logger = setup_logging("npu_spatial_engine")
 
 
 class NPUSpatialEngine:
@@ -28,7 +34,7 @@ class NPUSpatialEngine:
         self.density_map = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
         self._generate_density_map()
 
-        print(f"🚀 NPUSpatialEngine initialized on hardware: {self.hardware_mode}")
+        logger.info(f"🚀 NPUSpatialEngine initialized on hardware: {self.hardware_mode}")
 
     def _load_history(self):
         if os.path.exists(self.history_file):
@@ -112,33 +118,38 @@ class NPUSpatialEngine:
         Analyzes voxel mass distribution and ground stability to prevent chunk failure.
         Replaces legacy 'mutation cycles' with high-fidelity architectural verification.
         """
-        print(f"🧠 [Hailo-8L] Auditing structural integrity for {w}x{d} macro-build at {x},{z}...")
-        
-        # Simulate a more complex audit
+        logger.info(
+            f"🧠 [Hailo-8L] Auditing structural integrity for {w}x{d} macro-build at {x},{z}..."
+        )
+
         col, row = self._world_to_grid(x, z)
         base_density = self.density_map[row][col]
-        
+
         # Audit criteria for v5 Industrial Standards:
         # 1. Base density must be stable (not excessive, but not floating)
         # 2. Bounding box must not exceed the defined safety threshold (e.g. 5x5 chunks)
-        max_chunk_size = 80 # 5 chunks
+        max_chunk_size = 80  # 5 chunks
         if w > max_chunk_size or d > max_chunk_size:
-            print(f"⚠️ [Hailo-8L] Audit FAILED: Dimension ({w}x{d}) exceeds macro-build threshold.")
+            logger.warning(
+                f"⚠️ [Hailo-8L] Audit FAILED: Dimension ({w}x{d}) exceeds macro-build threshold."
+            )
             return False
-            
+
         if base_density > 20.0:
-            print(f"⚠️ [Hailo-8L] Audit FAILED: Ground density ({base_density}) too high for new foundation.")
+            logger.warning(
+                f"⚠️ [Hailo-8L] Audit FAILED: Ground density ({base_density}) too high for new foundation."
+            )
             return False
-            
-        print(f"✅ [Hailo-8L] Audit PASSED: Integrity verified for {w}x{d} footprint.")
+
+        logger.info(f"✅ [Hailo-8L] Audit PASSED: Integrity verified for {w}x{d} footprint.")
         return True
 
-
-def query_traversability(self, coords):
-    try:
-        # Attempts to find the Y-level for traversability weighting
-        y_val = int(coords.split(",")[2])
-        return 0.1 if y_val == 70 else 5.0
-    except (IndexError, ValueError):
-        # Fallback high-cost weight for invalid coordinate data
-        return 10.0
+    def query_traversability(self, coords):
+        """Queries vertical traversability cost based on Y coordinate."""
+        try:
+            # Attempts to find the Y-level for traversability weighting
+            y_val = int(coords.split(",")[2])
+            return 0.1 if y_val == 70 else 5.0
+        except (IndexError, ValueError):
+            # Fallback high-cost weight for invalid coordinate data
+            return 10.0

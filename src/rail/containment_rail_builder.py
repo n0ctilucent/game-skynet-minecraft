@@ -373,7 +373,12 @@ def build_dual_track_segment(
     y_roadbed: int = 63,
     roadbed_block: str = "minecraft:polished_deepslate",
     install_telemetry: bool = True,
-    node_id: str = "CHONK-01"
+    node_id: str = "CHONK-01",
+    roadbed_style: str = "standard",
+    deck_block: str = "minecraft:oak_planks",
+    ballast_block: str = "minecraft:gravel",
+    has_canopy: bool = False,
+    facia_depth: int = 1
 ) -> list[str]:
     """
     Generates verified RCON commands for a dual-track pair corridor:
@@ -385,9 +390,173 @@ def build_dual_track_segment(
       with subsurface redstone_block at Y=63 to maintain continuous 8.0 m/s cart speed.
     - Detector rail sensors with embedded command blocks at corridor midpoints for
       live Chonk telemetry logging and verification.
+    
+    Roadbed Styles:
+    - "standard": Deepslate foundation, 1-block air median, end buffers.
+    - "timber_viaduct" / "gravel_ballast":
+      5-block-wide timber bridge deck (oak_planks/spruce_planks) with outer facia dropping
+      1-2 blocks below track plane; gravel ballast directly beneath each track lane;
+      1-block center median topped with upright lanterns every 12-16 blocks;
+      outer pedestrian maintenance shoulders with stone_brick_slab[type=top] curbs and
+      continuous oak_fence guardrails topped with torches every 4-6 blocks;
+      optional overhead translucent glass weather canopy.
     """
     commands = []
 
+    if roadbed_style.lower() in ("timber_viaduct", "gravel_ballast", "viaduct"):
+        if axis.upper() == "X":
+            start_x = min(x1, x2)
+            end_x = max(x1, x2)
+            center_z = z1
+            z_w1 = center_z - 2   # Outer shoulder/walkway 1
+            z_t1 = center_z - 1   # Track 1 (Eastbound: +X)
+            z_med = center_z      # Center Median: 1-block space
+            z_t2 = center_z + 1   # Track 2 (Westbound: -X)
+            z_w2 = center_z + 2   # Outer shoulder/walkway 2
+
+            # 1. 3-block vertical passenger air clearance envelope above rails (Y=65..67)
+            commands.append(f"fill {start_x} {y_deck + 1} {z_w1} {end_x} {y_deck + 3} {z_w2} minecraft:air keep")
+
+            # 2. 5-block-wide timber bridge deck & outer side facia drops below track plane
+            commands.append(f"fill {start_x} {y_roadbed} {z_w1} {end_x} {y_roadbed} {z_w2} {deck_block}")
+            for fd in range(1, facia_depth + 1):
+                commands.append(f"fill {start_x} {y_roadbed - fd} {z_w1} {end_x} {y_roadbed - fd} {z_w1} {deck_block}")
+                commands.append(f"fill {start_x} {y_roadbed - fd} {z_w2} {end_x} {y_roadbed - fd} {z_w2} {deck_block}")
+
+            # 3. Continuous gravel ballast bed beneath each track lane
+            commands.append(f"fill {start_x} {y_roadbed} {z_t1} {end_x} {y_roadbed} {z_t1} {ballast_block}")
+            commands.append(f"fill {start_x} {y_roadbed} {z_t2} {end_x} {y_roadbed} {z_t2} {ballast_block}")
+
+            # 4. Center median timber divider with upright lanterns every 12-16 blocks
+            commands.append(f"fill {start_x} {y_deck} {z_med} {end_x} {y_deck} {z_med} {deck_block}")
+            for x in range(start_x, end_x + 1):
+                step = x - start_x
+                if step % 15 == 0:
+                    commands.append(f"setblock {x} {y_deck + 1} {z_med} minecraft:lantern[hanging=false]")
+
+            # 5. Outer maintenance walkways with stone_brick_slab curbs and oak_fence guardrails
+            commands.append(f"fill {start_x} {y_roadbed} {z_w1} {end_x} {y_roadbed} {z_w1} minecraft:stone_brick_slab[type=top]")
+            commands.append(f"fill {start_x} {y_roadbed} {z_w2} {end_x} {y_roadbed} {z_w2} minecraft:stone_brick_slab[type=top]")
+            commands.append(f"fill {start_x} {y_deck} {z_w1} {end_x} {y_deck} {z_w1} minecraft:oak_fence")
+            commands.append(f"fill {start_x} {y_deck} {z_w2} {end_x} {y_deck} {z_w2} minecraft:oak_fence")
+            for x in range(start_x, end_x + 1):
+                step = x - start_x
+                if step % 5 == 0:
+                    commands.append(f"setblock {x} {y_deck + 1} {z_w1} minecraft:torch")
+                    commands.append(f"setblock {x} {y_deck + 1} {z_w2} minecraft:torch")
+
+            # 6. Dual-track rail lanes with flush redstone block powering every interval
+            commands.append(f"fill {start_x} {y_deck} {z_t1} {end_x} {y_deck} {z_t1} minecraft:rail[shape=east_west]")
+            commands.append(f"fill {start_x} {y_deck} {z_t2} {end_x} {y_deck} {z_t2} minecraft:rail[shape=east_west]")
+            for x in range(start_x, end_x + 1):
+                step = x - start_x
+                if step % power_interval == 0:
+                    commands.append(f"setblock {x} {y_roadbed} {z_t1} minecraft:redstone_block")
+                    commands.append(f"setblock {x} {y_deck} {z_t1} minecraft:powered_rail[shape=east_west]")
+                    commands.append(f"setblock {x} {y_roadbed} {z_t2} minecraft:redstone_block")
+                    commands.append(f"setblock {x} {y_deck} {z_t2} minecraft:powered_rail[shape=east_west]")
+
+            # 7. Optional overhead translucent glass canopy
+            if has_canopy:
+                commands.append(f"fill {start_x} {y_deck + 4} {z_w1} {end_x} {y_deck + 4} {z_w1} {deck_block}")
+                commands.append(f"fill {start_x} {y_deck + 4} {z_t1} {end_x} {y_deck + 4} {z_t2} minecraft:glass")
+                commands.append(f"fill {start_x} {y_deck + 4} {z_w2} {end_x} {y_deck + 4} {z_w2} {deck_block}")
+
+            # 8. Midpoint Telemetry Sensor Installation
+            if install_telemetry:
+                mid_x = (start_x + end_x) // 2
+                if (mid_x - start_x) % power_interval == 0:
+                    mid_x += 1
+                commands.append(
+                    f"setblock {mid_x} {y_roadbed} {z_t1} "
+                    f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:CART_PASS DATA:DUAL_TRACK_T1_EASTBOUND_SPEED_8.0\"}}"
+                )
+                commands.append(f"setblock {mid_x} {y_deck} {z_t1} minecraft:detector_rail[shape=east_west]")
+                commands.append(
+                    f"setblock {mid_x} {y_roadbed} {z_t2} "
+                    f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:CART_PASS DATA:DUAL_TRACK_T2_WESTBOUND_SPEED_8.0\"}}"
+                )
+                commands.append(f"setblock {mid_x} {y_deck} {z_t2} minecraft:detector_rail[shape=east_west]")
+
+        elif axis.upper() == "Z":
+            start_z = min(z1, z2)
+            end_z = max(z1, z2)
+            center_x = x1
+            x_w1 = center_x - 2   # Outer shoulder/walkway 1
+            x_t1 = center_x - 1   # Track 1 (Southbound: +Z)
+            x_med = center_x      # Center Median: 1-block space
+            x_t2 = center_x + 1   # Track 2 (Northbound: -Z)
+            x_w2 = center_x + 2   # Outer shoulder/walkway 2
+
+            # 1. 3-block vertical passenger air clearance envelope above rails (Y=65..67)
+            commands.append(f"fill {x_w1} {y_deck + 1} {start_z} {x_w2} {y_deck + 3} {end_z} minecraft:air keep")
+
+            # 2. 5-block-wide timber bridge deck & outer side facia drops below track plane
+            commands.append(f"fill {x_w1} {y_roadbed} {start_z} {x_w2} {y_roadbed} {end_z} {deck_block}")
+            for fd in range(1, facia_depth + 1):
+                commands.append(f"fill {x_w1} {y_roadbed - fd} {start_z} {x_w1} {y_roadbed - fd} {end_z} {deck_block}")
+                commands.append(f"fill {x_w2} {y_roadbed - fd} {start_z} {x_w2} {y_roadbed - fd} {end_z} {deck_block}")
+
+            # 3. Continuous gravel ballast bed beneath each track lane
+            commands.append(f"fill {x_t1} {y_roadbed} {start_z} {x_t1} {y_roadbed} {end_z} {ballast_block}")
+            commands.append(f"fill {x_t2} {y_roadbed} {start_z} {x_t2} {y_roadbed} {end_z} {ballast_block}")
+
+            # 4. Center median timber divider with upright lanterns every 12-16 blocks
+            commands.append(f"fill {x_med} {y_deck} {start_z} {x_med} {y_deck} {end_z} {deck_block}")
+            for z in range(start_z, end_z + 1):
+                step = z - start_z
+                if step % 15 == 0:
+                    commands.append(f"setblock {x_med} {y_deck + 1} {z} minecraft:lantern[hanging=false]")
+
+            # 5. Outer maintenance walkways with stone_brick_slab curbs and oak_fence guardrails
+            commands.append(f"fill {x_w1} {y_roadbed} {start_z} {x_w1} {y_roadbed} {end_z} minecraft:stone_brick_slab[type=top]")
+            commands.append(f"fill {x_w2} {y_roadbed} {start_z} {x_w2} {y_roadbed} {end_z} minecraft:stone_brick_slab[type=top]")
+            commands.append(f"fill {x_w1} {y_deck} {start_z} {x_w1} {y_deck} {end_z} minecraft:oak_fence")
+            commands.append(f"fill {x_w2} {y_deck} {start_z} {x_w2} {y_deck} {end_z} minecraft:oak_fence")
+            for z in range(start_z, end_z + 1):
+                step = z - start_z
+                if step % 5 == 0:
+                    commands.append(f"setblock {x_w1} {y_deck + 1} {z} minecraft:torch")
+                    commands.append(f"setblock {x_w2} {y_deck + 1} {z} minecraft:torch")
+
+            # 6. Dual-track rail lanes with flush redstone block powering every interval
+            commands.append(f"fill {x_t1} {y_deck} {start_z} {x_t1} {y_deck} {end_z} minecraft:rail[shape=north_south]")
+            commands.append(f"fill {x_t2} {y_deck} {start_z} {x_t2} {y_deck} {end_z} minecraft:rail[shape=north_south]")
+            for z in range(start_z, end_z + 1):
+                step = z - start_z
+                if step % power_interval == 0:
+                    commands.append(f"setblock {x_t1} {y_roadbed} {z} minecraft:redstone_block")
+                    commands.append(f"setblock {x_t1} {y_deck} {z} minecraft:powered_rail[shape=north_south]")
+                    commands.append(f"setblock {x_t2} {y_roadbed} {z} minecraft:redstone_block")
+                    commands.append(f"setblock {x_t2} {y_deck} {z} minecraft:powered_rail[shape=north_south]")
+
+            # 7. Optional overhead translucent glass canopy
+            if has_canopy:
+                commands.append(f"fill {x_w1} {y_deck + 4} {start_z} {x_w1} {y_deck + 4} {end_z} {deck_block}")
+                commands.append(f"fill {x_t1} {y_deck + 4} {start_z} {x_t2} {y_deck + 4} {end_z} minecraft:glass")
+                commands.append(f"fill {x_w2} {y_deck + 4} {start_z} {x_w2} {y_deck + 4} {end_z} {deck_block}")
+
+            # 8. Midpoint Telemetry Sensor Installation
+            if install_telemetry:
+                mid_z = (start_z + end_z) // 2
+                if (mid_z - start_z) % power_interval == 0:
+                    mid_z += 1
+                commands.append(
+                    f"setblock {x_t1} {y_roadbed} {mid_z} "
+                    f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:CART_PASS DATA:DUAL_TRACK_T1_SOUTHBOUND_SPEED_8.0\"}}"
+                )
+                commands.append(f"setblock {x_t1} {y_deck} {mid_z} minecraft:detector_rail[shape=north_south]")
+                commands.append(
+                    f"setblock {x_t2} {y_roadbed} {mid_z} "
+                    f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:CART_PASS DATA:DUAL_TRACK_T2_NORTHBOUND_SPEED_8.0\"}}"
+                )
+                commands.append(f"setblock {x_t2} {y_deck} {mid_z} minecraft:detector_rail[shape=north_south]")
+        else:
+            raise ValueError(f"Unsupported axis: {axis}. Use 'X' or 'Z'.")
+
+        return commands
+
+    # Default 'standard' roadbed style (backward-compatible)
     if axis.upper() == "X":
         start_x = min(x1, x2)
         end_x = max(x1, x2)
@@ -611,6 +780,280 @@ def build_station_terminal_pavilion(
     # Warm interior lanterns hanging from canopy
     commands.append(f"setblock {x - 1} {y + 3} {z + 2} minecraft:lantern[hanging=true]")
     commands.append(f"setblock {x + 1} {y + 3} {z + l - 3} minecraft:lantern[hanging=true]")
+
+    return commands
+
+
+def build_station_terminal(
+    x: int, y: int, z: int,
+    facing: str = "east",
+    dest_name: str = "Orbital Loop",
+    origin_name: str = "Central Depot",
+    node_id: str = "CHONK-01",
+    length: int = 12
+) -> list[str]:
+    """
+    Constructs an upgraded dual-bay enclosed terminal station house:
+    - Enclosed stone and stone_bricks shell with recessed glass viewing windows
+      and separate 2x3 inbound/outbound portal openings.
+    - Polished andesite platform deck (Y) with stone_bricks wainscoting (Y+1)
+      and ceiling-hung lanterns (lantern[hanging=true]).
+    - 2-block-wide polished andesite center island with recessed shroomlight spine.
+    - Recessed track troughs (Y-1) with detector_rail + powered_rail launch/arrestor
+      array and oak_button on end-cap polished andesite block.
+    - Directional oak_wall_sign placards over each portal ('Depart: ...' / 'Arrive: from ...').
+    - Strictly validated against AI Containment boundaries.
+    """
+    if not validate_coordinates(x, z, margin=20):
+        raise ValueError(
+            f"Station terminal coordinates ({x}, {y}, {z}) exceed AI Containment boundaries "
+            f"X in [{CONTAINMENT_BOUNDS['min_x']}, {CONTAINMENT_BOUNDS['max_x']}], "
+            f"Z in [{CONTAINMENT_BOUNDS['min_z']}, {CONTAINMENT_BOUNDS['max_z']}]."
+        )
+
+    commands = []
+
+    if facing.lower() in ("east", "west"):
+        track_axis = "east_west"
+        sign_facing = "east" if facing.lower() == "east" else "west"
+        btn_facing = "east" if facing.lower() == "east" else "west"
+        cap_step = 1 if facing.lower() == "east" else -1
+
+        x1 = min(x, x + (length - 1 if facing.lower() == "east" else -(length - 1)))
+        x2 = max(x, x + (length - 1 if facing.lower() == "east" else -(length - 1)))
+
+        x_port = x2 if facing.lower() == "east" else x1
+        x_cap = x1 if facing.lower() == "east" else x2
+
+        # Transverse coordinates (Z axis): 8-block hall width
+        z_wall_n = z - 4
+        z_plat_n = z - 3
+        z_t1 = z - 2       # Track 1: Arrival / Inbound
+        z_isle_1 = z - 1   # Center Island (left)
+        z_isle_2 = z       # Center Island (right) -> 2-block wide center island
+        z_t2 = z + 1       # Track 2: Departure / Outbound
+        z_plat_s = z + 2
+        z_wall_s = z + 3
+
+        # 1. Base foundation floor at Y-2
+        commands.append(f"fill {x1} {y - 2} {z_wall_n} {x2} {y - 2} {z_wall_s} minecraft:stone")
+
+        # 2. Recessed Track Troughs at Y-1
+        commands.append(f"fill {x1} {y - 1} {z_t1} {x2} {y - 1} {z_t1} minecraft:rail[shape={track_axis}]")
+        commands.append(f"fill {x1} {y - 1} {z_t2} {x2} {y - 1} {z_t2} minecraft:rail[shape={track_axis}]")
+
+        # 3. Platform decks at Y (polished andesite)
+        commands.append(f"fill {x1} {y} {z_plat_n} {x2} {y} {z_plat_n} minecraft:polished_andesite")
+        commands.append(f"fill {x1} {y} {z_plat_s} {x2} {y} {z_plat_s} minecraft:polished_andesite")
+        # 2-block wide center island platform
+        commands.append(f"fill {x1} {y} {z_isle_1} {x2} {y} {z_isle_2} minecraft:polished_andesite")
+
+        # 4. Recessed Shroomlight spine along center island
+        for xi in range(x1 + 2, x2 - 1, 3):
+            commands.append(f"setblock {xi} {y} {z_isle_1} minecraft:shroomlight")
+            commands.append(f"setblock {xi} {y} {z_isle_2} minecraft:shroomlight")
+
+        # 5. Clear passenger interior air envelope
+        commands.append(f"fill {x1 + 1} {y} {z_t1} {x2 - 1} {y + 3} {z_t1} minecraft:air keep")
+        commands.append(f"fill {x1 + 1} {y} {z_t2} {x2 - 1} {y + 3} {z_t2} minecraft:air keep")
+        commands.append(f"fill {x1 + 1} {y + 1} {z_plat_n} {x2 - 1} {y + 3} {z_plat_s} minecraft:air keep")
+
+        # 6. Stone bricks wainscoting at Y+1
+        commands.append(f"fill {x1} {y + 1} {z_wall_n} {x2} {y + 1} {z_wall_n} minecraft:stone_bricks")
+        commands.append(f"fill {x1} {y + 1} {z_wall_s} {x2} {y + 1} {z_wall_s} minecraft:stone_bricks")
+        commands.append(f"fill {x1 + 1} {y + 1} {z_plat_n} {x2 - 1} {y + 1} {z_plat_n} minecraft:stone_brick_stairs[half=bottom,facing=south]")
+        commands.append(f"fill {x1 + 1} {y + 1} {z_plat_s} {x2 - 1} {y + 1} {z_plat_s} minecraft:stone_brick_stairs[half=bottom,facing=north]")
+
+        # 7. Enclosed stone/stone_bricks shell with recessed glass viewing windows
+        commands.append(f"fill {x1} {y} {z_wall_n} {x2} {y + 4} {z_wall_n} minecraft:stone")
+        commands.append(f"fill {x1} {y + 1} {z_wall_n} {x2} {y + 1} {z_wall_n} minecraft:stone_bricks")
+        commands.append(f"fill {x1 + 2} {y + 2} {z_wall_n} {x2 - 2} {y + 3} {z_wall_n} minecraft:glass")
+
+        commands.append(f"fill {x1} {y} {z_wall_s} {x2} {y + 4} {z_wall_s} minecraft:stone")
+        commands.append(f"fill {x1} {y + 1} {z_wall_s} {x2} {y + 1} {z_wall_s} minecraft:stone_bricks")
+        commands.append(f"fill {x1 + 2} {y + 2} {z_wall_s} {x2 - 2} {y + 3} {z_wall_s} minecraft:glass")
+
+        # 8. End walls: closed bumper end & portal arrival/departure end
+        commands.append(f"fill {x_cap} {y} {z_wall_n} {x_cap} {y + 4} {z_wall_s} minecraft:stone_bricks")
+        commands.append(f"fill {x_port} {y} {z_wall_n} {x_port} {y + 4} {z_wall_s} minecraft:stone_bricks")
+
+        # Separate 2x3 portal openings at x_port:
+        # Inbound portal (Track 1)
+        commands.append(f"fill {x_port} {y} {z_plat_n} {x_port} {y + 2} {z_t1} minecraft:air")
+        commands.append(
+            f"setblock {x_port} {y + 3} {z_t1} "
+            f"minecraft:oak_wall_sign[facing={sign_facing}]{{front_text:{{messages:['\"Arrive:\"','\"from {origin_name}\"','\"\"','\"\"']}}}}"
+        )
+
+        # Outbound portal (Track 2)
+        commands.append(f"fill {x_port} {y} {z_t2} {x_port} {y + 2} {z_plat_s} minecraft:air")
+        commands.append(
+            f"setblock {x_port} {y + 3} {z_t2} "
+            f"minecraft:oak_wall_sign[facing={sign_facing}]{{front_text:{{messages:['\"Depart:\"','\"{dest_name}\"','\"\"','\"\"']}}}}"
+        )
+
+        # 9. Recessed Track Launch/Arrestor Array with End-Cap Button
+        # End cap block at x_cap
+        commands.append(f"setblock {x_cap} {y - 1} {z_t1} minecraft:polished_andesite")
+        commands.append(f"setblock {x_cap} {y} {z_t1} minecraft:polished_andesite")
+        commands.append(f"setblock {x_cap + cap_step} {y} {z_t1} minecraft:oak_button[facing={btn_facing}]")
+
+        commands.append(f"setblock {x_cap} {y - 1} {z_t2} minecraft:polished_andesite")
+        commands.append(f"setblock {x_cap} {y} {z_t2} minecraft:polished_andesite")
+        commands.append(f"setblock {x_cap + cap_step} {y} {z_t2} minecraft:oak_button[facing={btn_facing}]")
+
+        # Launch rails and telemetry detector array
+        x_l1 = x_cap + cap_step
+        commands.append(f"setblock {x_l1} {y - 2} {z_t1} minecraft:redstone_block")
+        commands.append(f"setblock {x_l1} {y - 1} {z_t1} minecraft:powered_rail[shape={track_axis}]")
+        commands.append(f"setblock {x_l1} {y - 2} {z_t2} minecraft:redstone_block")
+        commands.append(f"setblock {x_l1} {y - 1} {z_t2} minecraft:powered_rail[shape={track_axis}]")
+
+        x_l2 = x_cap + cap_step * 2
+        commands.append(
+            f"setblock {x_l2} {y - 2} {z_t1} "
+            f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:STATION_LAUNCH TRACK:T1\"}}"
+        )
+        commands.append(f"setblock {x_l2} {y - 1} {z_t1} minecraft:detector_rail[shape={track_axis}]")
+        commands.append(
+            f"setblock {x_l2} {y - 2} {z_t2} "
+            f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:STATION_LAUNCH TRACK:T2\"}}"
+        )
+        commands.append(f"setblock {x_l2} {y - 1} {z_t2} minecraft:detector_rail[shape={track_axis}]")
+
+        x_l3 = x_cap + cap_step * 3
+        commands.append(f"setblock {x_l3} {y - 2} {z_t1} minecraft:redstone_block")
+        commands.append(f"setblock {x_l3} {y - 1} {z_t1} minecraft:powered_rail[shape={track_axis}]")
+        commands.append(f"setblock {x_l3} {y - 2} {z_t2} minecraft:redstone_block")
+        commands.append(f"setblock {x_l3} {y - 1} {z_t2} minecraft:powered_rail[shape={track_axis}]")
+
+        # 10. Vaulted Ceiling & Ceiling-Hung Lanterns
+        commands.append(f"fill {x1} {y + 4} {z_wall_n} {x2} {y + 4} {z_wall_s} minecraft:stone_bricks")
+        commands.append(f"fill {x1 + 1} {y + 4} {z_plat_n} {x2 - 1} {y + 4} {z_plat_s} minecraft:air")
+        commands.append(f"fill {x1} {y + 5} {z_wall_n} {x2} {y + 5} {z_wall_s} minecraft:stone")
+        for xi in range(x1 + 2, x2 - 1, 3):
+            commands.append(f"setblock {xi} {y + 3} {z_isle_1} minecraft:lantern[hanging=true]")
+
+    elif facing.lower() in ("north", "south"):
+        track_axis = "north_south"
+        sign_facing = "south" if facing.lower() == "south" else "north"
+        btn_facing = "south" if facing.lower() == "south" else "north"
+        cap_step = 1 if facing.lower() == "south" else -1
+
+        z1 = min(z, z + (length - 1 if facing.lower() == "south" else -(length - 1)))
+        z2 = max(z, z + (length - 1 if facing.lower() == "south" else -(length - 1)))
+
+        z_port = z2 if facing.lower() == "south" else z1
+        z_cap = z1 if facing.lower() == "south" else z2
+
+        # Transverse coordinates (X axis): 8-block hall width
+        x_wall_w = x - 4
+        x_plat_w = x - 3
+        x_t1 = x - 2       # Track 1: Arrival / Inbound
+        x_isle_1 = x - 1   # Center Island (left)
+        x_isle_2 = x       # Center Island (right) -> 2-block wide center island
+        x_t2 = x + 1       # Track 2: Departure / Outbound
+        x_plat_e = x + 2
+        x_wall_e = x + 3
+
+        # 1. Base foundation floor at Y-2
+        commands.append(f"fill {x_wall_w} {y - 2} {z1} {x_wall_e} {y - 2} {z2} minecraft:stone")
+
+        # 2. Recessed Track Troughs at Y-1
+        commands.append(f"fill {x_t1} {y - 1} {z1} {x_t1} {y - 1} {z2} minecraft:rail[shape={track_axis}]")
+        commands.append(f"fill {x_t2} {y - 1} {z1} {x_t2} {y - 1} {z2} minecraft:rail[shape={track_axis}]")
+
+        # 3. Platform decks at Y (polished andesite)
+        commands.append(f"fill {x_plat_w} {y} {z1} {x_plat_w} {y} {z2} minecraft:polished_andesite")
+        commands.append(f"fill {x_plat_e} {y} {z1} {x_plat_e} {y} {z2} minecraft:polished_andesite")
+        commands.append(f"fill {x_isle_1} {y} {z1} {x_isle_2} {y} {z2} minecraft:polished_andesite")
+
+        # 4. Recessed Shroomlight spine along center island
+        for zi in range(z1 + 2, z2 - 1, 3):
+            commands.append(f"setblock {x_isle_1} {y} {zi} minecraft:shroomlight")
+            commands.append(f"setblock {x_isle_2} {y} {zi} minecraft:shroomlight")
+
+        # 5. Clear passenger interior air envelope
+        commands.append(f"fill {x_t1} {y} {z1 + 1} {x_t1} {y + 3} {z2 - 1} minecraft:air keep")
+        commands.append(f"fill {x_t2} {y} {z1 + 1} {x_t2} {y + 3} {z2 - 1} minecraft:air keep")
+        commands.append(f"fill {x_plat_w} {y + 1} {z1 + 1} {x_plat_e} {y + 3} {z2 - 1} minecraft:air keep")
+
+        # 6. Stone bricks wainscoting at Y+1
+        commands.append(f"fill {x_wall_w} {y + 1} {z1} {x_wall_w} {y + 1} {z2} minecraft:stone_bricks")
+        commands.append(f"fill {x_wall_e} {y + 1} {z1} {x_wall_e} {y + 1} {z2} minecraft:stone_bricks")
+        commands.append(f"fill {x_plat_w} {y + 1} {z1 + 1} {x_plat_w} {y + 1} {z2 - 1} minecraft:stone_brick_stairs[half=bottom,facing=east]")
+        commands.append(f"fill {x_plat_e} {y + 1} {z1 + 1} {x_plat_e} {y + 1} {z2 - 1} minecraft:stone_brick_stairs[half=bottom,facing=west]")
+
+        # 7. Enclosed stone/stone_bricks shell with recessed glass viewing windows
+        commands.append(f"fill {x_wall_w} {y} {z1} {x_wall_w} {y + 4} {z2} minecraft:stone")
+        commands.append(f"fill {x_wall_w} {y + 1} {z1} {x_wall_w} {y + 1} {z2} minecraft:stone_bricks")
+        commands.append(f"fill {x_wall_w} {y + 2} {z1 + 2} {x_wall_w} {y + 3} {z2 - 2} minecraft:glass")
+
+        commands.append(f"fill {x_wall_e} {y} {z1} {x_wall_e} {y + 4} {z2} minecraft:stone")
+        commands.append(f"fill {x_wall_e} {y + 1} {z1} {x_wall_e} {y + 1} {z2} minecraft:stone_bricks")
+        commands.append(f"fill {x_wall_e} {y + 2} {z1 + 2} {x_wall_e} {y + 3} {z2 - 2} minecraft:glass")
+
+        # 8. End walls: closed bumper end & portal arrival/departure end
+        commands.append(f"fill {x_wall_w} {y} {z_cap} {x_wall_e} {y + 4} {z_cap} minecraft:stone_bricks")
+        commands.append(f"fill {x_wall_w} {y} {z_port} {x_wall_e} {y + 4} {z_port} minecraft:stone_bricks")
+
+        # Separate 2x3 portal openings at z_port:
+        # Inbound portal (Track 1)
+        commands.append(f"fill {x_plat_w} {y} {z_port} {x_t1} {y + 2} {z_port} minecraft:air")
+        commands.append(
+            f"setblock {x_t1} {y + 3} {z_port} "
+            f"minecraft:oak_wall_sign[facing={sign_facing}]{{front_text:{{messages:['\"Arrive:\"','\"from {origin_name}\"','\"\"','\"\"']}}}}"
+        )
+
+        # Outbound portal (Track 2)
+        commands.append(f"fill {x_t2} {y} {z_port} {x_plat_e} {y + 2} {z_port} minecraft:air")
+        commands.append(
+            f"setblock {x_t2} {y + 3} {z_port} "
+            f"minecraft:oak_wall_sign[facing={sign_facing}]{{front_text:{{messages:['\"Depart:\"','\"{dest_name}\"','\"\"','\"\"']}}}}"
+        )
+
+        # 9. Recessed Track Launch/Arrestor Array with End-Cap Button
+        commands.append(f"setblock {x_t1} {y - 1} {z_cap} minecraft:polished_andesite")
+        commands.append(f"setblock {x_t1} {y} {z_cap} minecraft:polished_andesite")
+        commands.append(f"setblock {x_t1} {y} {z_cap + cap_step} minecraft:oak_button[facing={btn_facing}]")
+
+        commands.append(f"setblock {x_t2} {y - 1} {z_cap} minecraft:polished_andesite")
+        commands.append(f"setblock {x_t2} {y} {z_cap} minecraft:polished_andesite")
+        commands.append(f"setblock {x_t2} {y} {z_cap + cap_step} minecraft:oak_button[facing={btn_facing}]")
+
+        # Launch rails and telemetry detector array
+        z_l1 = z_cap + cap_step
+        commands.append(f"setblock {x_t1} {y - 2} {z_l1} minecraft:redstone_block")
+        commands.append(f"setblock {x_t1} {y - 1} {z_l1} minecraft:powered_rail[shape={track_axis}]")
+        commands.append(f"setblock {x_t2} {y - 2} {z_l1} minecraft:redstone_block")
+        commands.append(f"setblock {x_t2} {y - 1} {z_l1} minecraft:powered_rail[shape={track_axis}]")
+
+        z_l2 = z_cap + cap_step * 2
+        commands.append(
+            f"setblock {x_t1} {y - 2} {z_l2} "
+            f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:STATION_LAUNCH TRACK:T1\"}}"
+        )
+        commands.append(f"setblock {x_t1} {y - 1} {z_l2} minecraft:detector_rail[shape={track_axis}]")
+        commands.append(
+            f"setblock {x_t2} {y - 2} {z_l2} "
+            f"minecraft:command_block{{Command:\"say [TELEMETRY] NODE:{node_id} EVENT:STATION_LAUNCH TRACK:T2\"}}"
+        )
+        commands.append(f"setblock {x_t2} {y - 1} {z_l2} minecraft:detector_rail[shape={track_axis}]")
+
+        z_l3 = z_cap + cap_step * 3
+        commands.append(f"setblock {x_t1} {y - 2} {z_l3} minecraft:redstone_block")
+        commands.append(f"setblock {x_t1} {y - 1} {z_l3} minecraft:powered_rail[shape={track_axis}]")
+        commands.append(f"setblock {x_t2} {y - 2} {z_l3} minecraft:redstone_block")
+        commands.append(f"setblock {x_t2} {y - 1} {z_l3} minecraft:powered_rail[shape={track_axis}]")
+
+        # 10. Vaulted Ceiling & Ceiling-Hung Lanterns
+        commands.append(f"fill {x_wall_w} {y + 4} {z1} {x_wall_e} {y + 4} {z2} minecraft:stone_bricks")
+        commands.append(f"fill {x_plat_w} {y + 4} {z1 + 1} {x_plat_e} {y + 4} {z2 - 1} minecraft:air")
+        commands.append(f"fill {x_wall_w} {y + 5} {z1} {x_wall_e} {y + 5} {z2} minecraft:stone")
+        for zi in range(z1 + 2, z2 - 1, 3):
+            commands.append(f"setblock {x_isle_1} {y + 3} {zi} minecraft:lantern[hanging=true]")
+    else:
+        raise ValueError(f"Unsupported facing: {facing}. Use 'east', 'west', 'north', or 'south'.")
 
     return commands
 

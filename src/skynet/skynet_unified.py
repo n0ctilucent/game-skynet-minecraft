@@ -5,13 +5,20 @@ import os
 import random
 import re
 import subprocess
+import sys
 import time
 from datetime import datetime, timedelta
+from pathlib import Path
+
+# Ensure src root is in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import mcschematic
-from npu_spatial_engine import NPUSpatialEngine
-from skynet_core import Config, SkynetCore, SkynetRCON, setup_logging
-from validate_no_overlaps import check_overlaps
+
+from schematics.validate_no_overlaps import check_overlaps
+from skynet.npu_spatial_engine import NPUSpatialEngine
+from skynet.skynet_core import SkynetCore
+from utils.config_utils import Config, SkynetRCON, setup_logging
 
 # Setup standardized logging
 logger = setup_logging("skynet_unified")
@@ -177,9 +184,6 @@ class SkynetUnifiedDaemon(SkynetCore):
             self._save_build_metadata(
                 build_name, sector_name, tx, ty, tz, width, height, length
             )
-
-        except Exception as e:
-            logger.error(f"❌ Urbanization Error: {e}")
 
         except Exception as e:
             logger.error(f"❌ Urbanization Error: {e}")

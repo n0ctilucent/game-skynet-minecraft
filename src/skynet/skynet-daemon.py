@@ -1,12 +1,7 @@
 import asyncio
 import json
-
 import numpy as np
 import websockets
-
-# Assuming your Hailo and TPU libraries are initialized here
-# from hailo_objects import HailoInference
-# from pycoral.utils import edgetpu
 
 
 class SkynetBuilder:
@@ -25,7 +20,6 @@ class SkynetBuilder:
         Offloading the geometry math to the NPU.
         """
         print(f"[{self.host_name}] Hailo-8L: Computing geometry for {intent}...")
-        # Simulated NPU expansion logic
         width, height, depth = size
         return np.zeros((width, height, depth))
 
@@ -37,7 +31,7 @@ class SkynetBuilder:
         print(f"[{self.host_name}] USB TPU: Validating structural aesthetics...")
         return True
 
-    async def handle_mcp_command(self, websocket, path):
+    async def handle_mcp_command(self, websocket, path=None):
         async for message in websocket:
             data = json.loads(message)
             intent = data.get("intent")
@@ -50,10 +44,6 @@ class SkynetBuilder:
             # 2. TPU Verification
             if self.tpu_integrity_check(voxel_map):
                 print(f"[{self.host_name}] Construction Authorized at {origin}")
-
-                # 3. RCON Execution (Lore: Sending the bits to the Sprawl)
-                # await self.execute_build(origin, voxel_map)
-
                 await websocket.send(
                     json.dumps(
                         {
@@ -67,10 +57,15 @@ class SkynetBuilder:
                 await websocket.send(json.dumps({"status": "ICE_BREACH_FAILED"}))
 
 
-# Start the Skynet Daemon
-builder = SkynetBuilder()
-start_server = websockets.serve(builder.handle_mcp_command, "0.0.0.0", 8765)
+async def main():
+    builder = SkynetBuilder()
+    print("--- SKYNET HOST ONLINE (WebSocket Port 8765) ---")
+    async with websockets.serve(builder.handle_mcp_command, "0.0.0.0", 8765):
+        await asyncio.Future()
 
-print(f"--- SKYNET HOST ONLINE ---")
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n--- SKYNET HOST OFFLINE ---")
